@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Justin Dejean — Portfolio</title>
+<meta name="description" content="Portfolio interactif de Justin Dejean, étudiant en BUT MMI à l'Université de Caen Normandie : audiovisuel, graphisme et web, dans un bureau Windows XP jouable.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Justin Dejean — Portfolio">
+<meta property="og:description" content="Audiovisuel, graphisme et web : mes projets dans un bureau Windows XP à explorer.">
+<meta property="og:image" content="og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#245edb">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23f25022' d='M1 1h10v10H1z'/%3E%3Cpath fill='%237fba00' d='M13 1h10v10H13z'/%3E%3Cpath fill='%2300a4ef' d='M1 13h10v10H1z'/%3E%3Cpath fill='%23ffb900' d='M13 13h10v10H13z'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="jeu/jeu.css">
+</head>
+<body>
+
+<!-- ============ ÉCRAN DE DÉMARRAGE WINDOWS XP ============ -->
+<div id="boot-screen">
+  <div class="xp-boot-box">
+    <div class="xp-logo-container">
+      <div class="xp-square red"></div>
+      <div class="xp-square green"></div>
+      <div class="xp-square blue"></div>
+      <div class="xp-square yellow"></div>
+    </div>
+    <h1>Portfolio de</h1>
+    <h2>Justin <span class="xp-text">Dejean</span></h2>
+    <div class="loading-bar-container">
+      <div class="loading-progress"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ BUREAU ============ -->
+<div id="desktop">
+
+  <div class="icon" id="icon-nav" data-window="window-nav">
+    <svg viewBox="0 0 100 100" width="48" height="48" aria-hidden="true">
+      <circle cx="50" cy="50" r="36" fill="#2f8bea" stroke="#000" stroke-width="3"/>
+      <text x="50" y="68" text-anchor="middle" font-family="Georgia, serif" font-weight="bold" font-size="56" fill="#fff">e</text>
+      <ellipse cx="50" cy="50" rx="46" ry="14" transform="rotate(-25 50 50)" fill="none" stroke="#f2c14e" stroke-width="5"/>
+    </svg>
+    <span>Internet</span>
+  </div>
+
+  <div class="icon" id="icon-studio" data-window="window-studio">
+    <svg viewBox="0 0 100 100" width="48" height="48" aria-hidden="true">
+      <rect x="12" y="18" width="76" height="56" rx="6" fill="#453a58" stroke="#000" stroke-width="3"/>
+      <rect x="22" y="27" width="56" height="34" fill="#7d9dc4" stroke="#000" stroke-width="2"/>
+      <rect x="30" y="47" width="40" height="14" fill="#cf9a58"/>
+      <rect x="45" y="36" width="10" height="14" fill="#3f6fd8" stroke="#000" stroke-width="2"/>
+      <circle cx="50" cy="33" r="5" fill="#f4c28c" stroke="#000" stroke-width="2"/>
+      <rect x="26" y="78" width="14" height="8" rx="2" fill="#ddd" stroke="#000" stroke-width="3"/>
+      <circle cx="66" cy="82" r="6" fill="#d94f5c" stroke="#000" stroke-width="3"/>
+    </svg>
+    <span>Galerie</span>
+  </div>
+
+  <div class="icon" id="icon-cv" data-window="window-cv">
+    <svg viewBox="0 0 100 100" width="48" height="48" aria-hidden="true">
+      <path d="M25,10 H62 L78,26 V90 H25 Z" fill="#fff" stroke="#000" stroke-width="3"/>
+      <path d="M62,10 L78,26 H62 Z" fill="#c8c8c8" stroke="#000" stroke-width="2"/>
+      <line x1="34" y1="40" x2="68" y2="40" stroke="#000" stroke-width="3"/>
+      <line x1="34" y1="53" x2="68" y2="53" stroke="#000" stroke-width="3"/>
+    </svg>
+    <span>CV.txt</span>
+  </div>
+
+  <div class="icon" id="icon-contact" data-window="window-contact">
+    <svg viewBox="0 0 100 100" width="48" height="48" aria-hidden="true">
+      <rect x="14" y="26" width="72" height="48" rx="4" fill="#f7ecd6" stroke="#000" stroke-width="3"/>
+      <path d="M14,30 L50,56 L86,30" fill="none" stroke="#000" stroke-width="3"/>
+    </svg>
+    <span>Contact.app</span>
+  </div>
+
+  <div class="icon" id="icon-musique" data-window="window-musique">
+    <svg viewBox="0 0 100 100" width="48" height="48" aria-hidden="true">
+      <circle cx="50" cy="50" r="38" fill="#1db954" stroke="#000" stroke-width="3"/>
+      <path d="M30,40 Q52,32 72,44" fill="none" stroke="#000" stroke-width="6" stroke-linecap="round"/>
+      <path d="M33,54 Q52,47 68,57" fill="none" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+      <path d="M36,67 Q52,62 64,69" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/>
+    </svg>
+    <span>Musique</span>
+  </div>
+
+  <div class="icon" id="icon-msn" data-window="window-msn">
+    <svg viewBox="0 0 100 100" width="48" height="48" aria-hidden="true">
+      <circle cx="50" cy="30" r="14" fill="#3f9be0" stroke="#000" stroke-width="3"/>
+      <path d="M22,78 Q22,50 50,50 Q78,50 78,78 Z" fill="#3f9be0" stroke="#000" stroke-width="3"/>
+      <circle cx="74" cy="72" r="9" fill="#5cc24a" stroke="#000" stroke-width="2"/>
+    </svg>
+    <span>Messenger</span>
+  </div>
+
+  <div class="icon" id="icon-projets" data-window="window-projets">
+    <svg viewBox="0 0 100 100" width="48" height="48" aria-hidden="true">
+      <path d="M10,28 H38 L48,38 H90 V82 H10 Z" fill="#e0a83f" stroke="#000" stroke-width="3" stroke-linejoin="round"/>
+    </svg>
+    <span>Projets</span>
+  </div>
+
+  <div class="icon" id="icon-trash" data-window="window-trash">
+    <svg viewBox="0 0 100 100" width="48" height="48" aria-hidden="true">
+      <path d="M30,28 H70 L66,88 H34 Z" fill="#c8c8c8" stroke="#000" stroke-width="3"/>
+    </svg>
+    <span>Corbeille</span>
+  </div>
+
+  <div id="toast-zone" aria-live="polite"></div>
+  <div id="gallery-invite">
+    <strong>Bienvenue !</strong>
+    <span>Mes travaux sont sur le bureau. Tu peux aussi les découvrir en te baladant dans la galerie.</span>
+    <button data-window="window-studio">Explorer la galerie</button>
+  </div>
+</div>
+
+<!-- ============ BARRE DES TÂCHES WINDOWS XP (EN BAS) ============ -->
+<div id="menu-bar">
+  <div class="start-button" role="button" tabindex="0" aria-label="Menu Démarrer">
+    <svg viewBox="0 0 24 24" width="16" height="16" style="margin-right:4px;">
+      <path fill="#f25022" d="M1 1h10v10H1z"/>
+      <path fill="#7fba00" d="M13 1h10v10H13z"/>
+      <path fill="#00a4ef" d="M1 13h10v10H1z"/>
+      <path fill="#ffb900" d="M13 13h10v10H13z"/>
+    </svg>
+    <span>démarrer</span>
+  </div>
+
+  <div class="taskbar-windows"></div>
+  <button id="dispo-badge" data-window="window-contact"><span class="dot"></span><span id="dispo-text">Disponible pour un stage dès le 15 avril</span></button>
+  <button id="taskbar-contact" data-window="window-contact">✉ Me contacter</button>
+  <button id="lang-btn" aria-label="Changer de langue">EN</button>
+  <button id="vol-btn" aria-label="Couper ou activer le son">🔊</button>
+
+  <div id="clock">--:--</div>
+
+  <!-- MENU DÉMARRER -->
+  <div id="apple-menu" class="hidden">
+    <div class="start-menu-header">
+      <span class="avatar">JD</span>
+      <strong>Justin Dejean</strong>
+    </div>
+    <div class="start-cols">
+      <div class="start-left">
+        <button data-window="window-nav"><span class="si">🌐</span><span><b>Internet</b><small>Naviguer sur le web</small></span></button>
+        <button data-window="window-projets"><span class="si">📁</span><span><b>Projets</b><small>Vidéo, graphisme, web</small></span></button>
+        <button data-window="window-studio"><span class="si">🖼</span><span><b>Galerie</b><small>Se balader dans mes travaux</small></span></button>
+        <button data-window="window-cv"><span class="si">📄</span><span><b>CV</b><small>Formation et compétences</small></span></button>
+        <button data-window="window-contact"><span class="si">✉</span><span><b>Contact</b><small>Un projet en tête ?</small></span></button>
+        <button data-window="window-msn"><span class="si">💬</span><span><b>Messenger</b><small>Discuter avec Justin</small></span></button>
+        <button data-window="window-musique"><span class="si">🎧</span><span><b>Musique</b><small>Ma playlist Spotify</small></span></button>
+        <hr>
+        <button data-window="window-demineur"><span class="si">💣</span><span><b>Démineur</b><small>Une pause ?</small></span></button>
+      </div>
+      <div class="start-right">
+        <button data-window="window-projets">Mes documents</button>
+        <button data-window="window-studio">Mes images</button>
+        <button data-window="window-trash">Corbeille</button>
+        <hr>
+        <button data-window="window-about">À propos</button>
+      </div>
+    </div>
+    <div class="start-menu-footer">
+      <button id="btn-restart" class="power-btn"><span class="power-icon">🔄</span> Redémarrer</button>
+      <button id="btn-shutdown" class="power-btn"><span class="power-icon">⏻</span> Arrêter</button>
+    </div>
+  </div>
+</div>
+
+<!-- Clic droit, extinction, fausse erreur, assistant -->
+<div id="ctx-menu" class="hidden">
+  <button data-act="reload">Actualiser</button>
+  <hr>
+  <button data-window="window-contact">Nouveau ▸ Message pour Justin</button>
+  <button data-window="window-msn">Discuter avec Justin</button>
+  <hr>
+  <button data-theme="colline">Thème : Colline (bleu)</button>
+  <button data-theme="desert">Thème : Désert (olive)</button>
+  <button data-theme="nuit">Thème : Nuit</button>
+  <hr>
+  <button data-window="window-about">Propriétés</button>
+</div>
+
+<div id="shutdown-screen" class="hidden"><p class="sd-text"></p><button id="sd-restart">Redémarrer</button></div>
+
+<div id="xp-error" class="hidden" role="alertdialog" aria-labelledby="err-title">
+  <div class="err-bar"><span id="err-title">Portfolio.exe</span></div>
+  <div class="err-body">
+    <span class="err-ico">✖</span>
+    <p class="err-text">Une erreur est survenue : trop de talent détecté. Voulez-vous continuer ?</p>
+  </div>
+  <div class="err-actions"><button id="err-yes">Oui</button><button id="err-no">Non</button></div>
+</div>
+
+<div id="clippy" class="hidden">
+  <div class="clippy-bubble">
+    <p>Il semblerait que vous cherchiez un monteur vidéo… Voulez-vous de l'aide ?</p>
+    <div class="clippy-actions">
+      <button data-clippy="videos">Voir les vidéos</button>
+      <button data-clippy="msn">Discuter</button>
+      <button data-clippy="contact">Me contacter</button>
+      <button data-clippy="close">Non merci</button>
+    </div>
+  </div>
+  <svg class="clippy-body" viewBox="0 0 40 70" width="44" height="76" aria-hidden="true">
+    <path d="M22 8 Q8 8 8 22 V50 Q8 64 21 64 Q34 64 34 50 V20 Q34 14 28 14 Q22 14 22 20 V46" fill="none" stroke="#8a8f99" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="17" cy="30" r="4.5" fill="#fff" stroke="#333"/><circle cx="27" cy="30" r="4.5" fill="#fff" stroke="#333"/>
+    <circle cx="17.5" cy="31" r="1.8" fill="#000"/><circle cx="27.5" cy="31" r="1.8" fill="#000"/>
+  </svg>
+</div>
+
+<!-- ============ FENÊTRES ============ -->
+
+<div class="window hidden" id="window-studio" style="top: 6%; left: 8%; width: 620px; height: 665px;" data-min-width="360" data-min-height="420">  <div class="title-bar">
+    <span class="title-text">Galerie — les travaux de Justin Dejean</span>
+    <div class="window-controls">
+      <button class="min-btn" aria-label="Réduire">_</button>
+      <button class="zoom-btn" aria-label="Agrandir">□</button>
+      <button class="close-btn" aria-label="Fermer">×</button>
+    </div>
+  </div>
+  <div class="window-content window-content--flush">
+    <div id="game-shell">
+      <div id="game-frame">
+        <canvas id="game-canvas" width="720" height="480" role="img" aria-label="Galerie 2D : un couloir de tableaux, un par projet"></canvas>
+        <div id="game-hud">
+          <span id="quest-badge">!</span>
+          <span id="quest-text">Objectif</span>
+        </div>
+        <button id="game-mute" aria-label="Couper le son">🔊</button>
+      </div>
+
+      <div id="game-dialogue">
+        <p id="dialogue-text"></p>
+        <span id="dialogue-arrow" aria-hidden="true">▼</span>
+      </div>
+
+      <div id="game-pad">
+        <div id="stick" role="application" aria-label="Joystick de déplacement">
+          <span class="stick-mark up">▲</span>
+          <span class="stick-mark down">▼</span>
+          <span class="stick-mark left">◀</span>
+          <span class="stick-mark right">▶</span>
+          <div id="stick-knob"></div>
+        </div>
+        <div id="action-buttons">
+          <button id="btn-jump" aria-label="Sauter">⤒</button>
+          <button id="btn-run" aria-label="Courir (maintenir)">»</button>
+          <button id="btn-action" aria-label="Interagir">A</button>
+        </div>
+      </div>
+
+      <p id="game-keys">
+        <kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> ou <kbd>Z</kbd><kbd>Q</kbd><kbd>S</kbd><kbd>D</kbd> pour marcher
+        · maintenir <kbd>Maj</kbd> pour courir · <kbd>Espace</kbd> pour sauter · <kbd>A</kbd> pour interagir
+      </p>
+    </div>
+  </div>
+  <div class="resize-handle"></div>
+</div>
+
+<div class="window hidden" id="window-cv" style="top: 8%; left: 20%; width: 520px; height: 520px;" data-min-width="320" data-min-height="260">
+  <div class="title-bar">
+    <span class="title-text">CV — Justin Dejean</span>
+    <div class="window-controls">
+      <button class="min-btn" aria-label="Réduire">_</button>
+      <button class="zoom-btn" aria-label="Agrandir">□</button>
+      <button class="close-btn" aria-label="Fermer">×</button>
+    </div>
+  </div>
+  <div class="window-content cv">
+    <header class="cv-head">
+      <div>
+        <h2>Justin DEJEAN</h2>
+        <p class="cv-role">Recherche de stage — audiovisuel &amp; infographie</p>
+        <p>Étudiant en BUT MMI, je cherche un stage de 8 à 10 semaines à partir du 15 avril. À l'aise sur la suite Adobe (Illustrator, Photoshop, InDesign, Premiere Pro, After Effects), je suis prêt à m'investir sur des projets concrets et à apporter une vraie valeur ajoutée à votre équipe.</p>
+        <p class="cv-actions"><a href="#" data-window="window-contact" class="mailto-btn">✉ Me contacter</a> <a id="cv-pdf" class="mailto-btn" style="display:none" target="_blank" rel="noopener">⬇ Télécharger le CV (PDF)</a></p>
+      </div>
+      <span class="avatar cv-photo">JD</span>
+    </header>
+
+    <h3>Projets</h3>
+    <ul>
+      <li><b>Spot publicitaire Hinge</b> — scénario, storyboard, motion design (After Effects) et intégration sonore.</li>
+      <li><b>Ce portfolio</b> — bureau Windows XP et galerie 2D jouable, développés en HTML, CSS et JavaScript.</li>
+      <li><a href="#" data-window="window-projets">→ Voir tous mes projets</a></li>
+    </ul>
+
+    <h3>Expériences</h3>
+    <ul>
+      <li><b>Agent de tri</b> (juillet – août 2026) — tri de déchets sélectif sur tapis roulant, enlèvement des déchets, nettoyage des machines.</li>
+      <li><b>Aide livreur</b> (août 2026) — réception et tri des camions, préparation des commandes, livraison, pose et reprise, installation de nouveaux équipements chez les clients.</li>
+      <li><b>Festival Beauregard</b> (juillet 2026) — contrôles et pose des bracelets, gestion des litiges.</li>
+      <li><b>Festival Bobital</b> (juin 2026) — missions de montage et de logistique du festival.</li>
+      <li><b>Membre du BDE</b> — participation à la vie associative et aux événements étudiants.</li>
+    </ul>
+
+    <h3>Formation</h3>
+    <ul>
+      <li><b>2025 – en cours</b> — BUT Métiers du Multimédia et de l'Internet — Université de Caen Normandie (IUT de Cherbourg)</li>
+      <li><b>2022 – 2025</b> — Baccalauréat STI2D, lycée Dumont d'Urville</li>
+      <li><b>2023</b> — SNU (Service national universel) — PSC1 (secourisme)</li>
+      <li><b>2022</b> — Diplôme national du brevet</li>
+    </ul>
+
+    <h3>Compétences</h3>
+    <ul>
+      <li><b>Logiciels :</b> Illustrator, Photoshop, InDesign, Premiere Pro, After Effects, CapCut, Canva</li>
+      <li><b>Web :</b> HTML / CSS / JavaScript</li>
+      <li><b>Qualités :</b> apprentissage rapide, adaptabilité, organisation et respect des procédures, sens du service et disponibilité</li>
+      <li><b>Langues :</b> français (langue maternelle), anglais (niveau professionnel), espagnol (débutant)</li>
+      <li><b>Permis B</b> — véhiculé</li>
+    </ul>
+  </div>
+  <div class="resize-handle"></div>
+</div>
+
+<div class="window hidden" id="window-contact" style="top: 18%; left: 28%; width: 400px;">
+  <div class="title-bar">
+    <span class="title-text">Contact.app</span>
+    <div class="window-controls">
+      <button class="min-btn" aria-label="Réduire">_</button>
+      <button class="zoom-btn" aria-label="Agrandir">□</button>
+      <button class="close-btn" aria-label="Fermer">×</button>
+    </div>
+  </div>
+  <div class="window-content card">
+    <div class="contact-head"><span class="avatar">JD</span><div><h3>Discutons de vos projets !</h3><p>Stage, projet vidéo, graphisme ou web : écris-moi.</p></div></div>
+    <form id="contact-form">
+      <label>Votre nom<input name="nom" required autocomplete="name"></label>
+      <label>Votre e-mail<input name="email" type="email" required autocomplete="email"></label>
+      <label>Message<textarea name="message" rows="4" required></textarea></label>
+      <button type="submit" class="mailto-btn">Envoyer</button>
+      <p id="contact-status" role="status"></p>
+    </form>
+    <p class="cta">Ou directement : <a href="mailto:dejeanjustin@icloud.com" data-site-email>dejeanjustin@icloud.com</a></p>
+  </div>
+  <div class="resize-handle"></div>
+</div>
+
+<div class="window hidden" id="window-musique" style="top: 9%; left: 52%; width: 400px; height: 440px;" data-min-width="300" data-min-height="300">
+  <div class="title-bar">
+    <span class="title-text">Lecteur de musique</span>
+    <div class="window-controls">
+      <button class="min-btn" aria-label="Réduire">_</button>
+      <button class="zoom-btn" aria-label="Agrandir">□</button>
+      <button class="close-btn" aria-label="Fermer">×</button>
+    </div>
+  </div>
+  <div class="music-tabs" id="music-tabs">
+    <button data-tab="youtube" class="on">🎵 Titres complets (YouTube)</button>
+    <button data-tab="spotify">Spotify (extraits)</button>
+  </div>
+  <div class="window-content window-content--flush music-body">
+    <iframe id="youtube-frame" title="Ma playlist (YouTube)" frameborder="0" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" loading="lazy"></iframe>
+    <iframe id="spotify-frame" title="Ma playlist Spotify" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    <p class="music-foot"><span id="music-note"></span> <a id="spotify-link" href="https://open.spotify.com/playlist/1sNe4yPF5y1HYkzMFbsUKF" target="_blank" rel="noopener">Ouvrir dans Spotify</a></p>
+  </div>
+  <div class="resize-handle"></div>
+</div>
+
+<div class="window hidden" id="window-msn" style="top: 14%; left: 36%; width: 360px; height: 460px;" data-min-width="280" data-min-height="320">
+  <div class="title-bar">
+    <span class="title-text">Messenger — Justin Dejean</span>
+    <div class="window-controls">
+      <button class="min-btn" aria-label="Réduire">_</button>
+      <button class="zoom-btn" aria-label="Agrandir">□</button>
+      <button class="close-btn" aria-label="Fermer">×</button>
+    </div>
+  </div>
+  <div class="msn-head"><span class="avatar">JD</span><div><b>Justin Dejean</b><small><i class="msn-dot"></i> En ligne</small></div></div>
+  <div class="window-content window-content--flush msn-body">
+    <div id="msn-log" aria-live="polite"></div>
+    <div id="msn-options"></div>
+    <form id="msn-form" class="hidden" autocomplete="off"><input id="msn-input" type="text" maxlength="300" placeholder="Écris-moi un message..." aria-label="Message"><button type="submit">Envoyer</button></form>
+  </div>
+  <div class="resize-handle"></div>
+</div>
+
+<div class="window hidden" id="window-nav" style="top: 6%; left: 14%; width: 760px; height: 500px;" data-min-width="420" data-min-height="300">
+  <div class="title-bar">
+    <span class="title-text">Navigateur Internet</span>
+    <div class="window-controls">
+      <button class="min-btn" aria-label="Réduire">_</button>
+      <button class="zoom-btn" aria-label="Agrandir">□</button>
+      <button class="close-btn" aria-label="Fermer">×</button>
+    </div>
+  </div>
+  <div class="xp-menubar"><span>Fichier</span><span>Edition</span><span>Affichage</span><span>Favoris</span><span>Outils</span><span>?</span></div>
+  <div class="xp-toolbar">
+    <button id="nav-back" class="xp-tool" disabled>◀ Précédente</button>
+    <button id="nav-fwd" class="xp-tool" disabled>Suivante ▶</button>
+    <button id="nav-reload" class="xp-tool">🔄 Actualiser</button>
+    <button id="nav-home" class="xp-tool">🏠 Accueil</button>
+  </div>
+  <form id="nav-form" class="explorer-address"><span>Adresse</span><input id="nav-url" type="text" value="about:home" aria-label="Adresse" autocomplete="off" spellcheck="false"><button type="submit" class="xp-tool">Atteindre</button></form>
+  <div id="nav-hint" class="nav-hint hidden">Beaucoup de sites interdisent d'être affichés dans une autre page. Si elle reste vide : <a id="nav-ext" href="#" target="_blank" rel="noopener">Ouvrir dans un nouvel onglet</a></div>
+  <div class="window-content window-content--flush nav-body">
+    <div id="nav-homepage">
+      <div class="nav-logo">Justin <span>Dejean</span></div>
+      <form id="nav-search"><input id="nav-q" type="text" placeholder="Rechercher sur le Web" aria-label="Rechercher sur le Web" autocomplete="off"><button type="submit">Rechercher</button></form>
+      <h4>Mon portfolio</h4>
+      <div class="nav-links">
+        <a href="#" data-window="window-projets">📁 Projets</a>
+        <a href="#" data-window="window-cv">📄 CV</a>
+        <a href="#" data-window="window-studio">🖼 Galerie</a>
+        <a href="#" data-window="window-musique">🎧 Musique</a>
+        <a href="#" data-window="window-msn">💬 Messenger</a>
+        <a href="#" data-window="window-contact">✉ Contact</a>
+      </div>
+      <h4>Favoris</h4>
+      <div class="nav-links" id="nav-favs"></div>
+    </div>
+    <iframe id="nav-frame" class="hidden" title="Page web" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox" referrerpolicy="no-referrer"></iframe>
+  </div>
+  <div class="xp-status" id="nav-status">Terminé</div>
+  <div class="resize-handle"></div>
+</div>
+
+<div class="window hidden" id="window-demineur" style="top: 12%; left: 40%; width: 270px;">
+  <div class="title-bar">
+    <span class="title-text">Démineur</span>
+    <div class="window-controls">
+      <button class="min-btn" aria-label="Réduire">_</button>
+      <button class="zoom-btn" aria-label="Agrandir">□</button>
+      <button class="close-btn" aria-label="Fermer">×</button>
+    </div>
+  </div>
+  <div class="window-content mines">
+    <div class="mines-top"><span id="mines-count" class="lcd">010</span><button id="mines-face" aria-label="Nouvelle partie">🙂</button><span id="mines-time" class="lcd">000</span></div>
+    <div id="mines-grid"></div>
+    <div class="mines-bottom"><button id="mines-flag">🚩 Mode drapeau</button></div>
+    <p id="mines-msg" role="status"></p>
+  </div>
+</div>
+
+<div class="window hidden" id="window-projets" style="top: 10%; left: 22%; width: 680px; height: 440px;" data-min-width="420" data-min-height="280">
+  <div class="title-bar">
+    <span class="title-text">Projets</span>
+    <div class="window-controls">
+      <button class="min-btn" aria-label="Réduire">_</button>
+      <button class="zoom-btn" aria-label="Agrandir">□</button>
+      <button class="close-btn" aria-label="Fermer">×</button>
+    </div>
+  </div>
+  <div class="xp-menubar"><span>Fichier</span><span>Edition</span><span>Affichage</span><span>Favoris</span><span>Outils</span><span>?</span></div>
+  <div class="xp-toolbar">
+    <button id="exp-back" class="xp-tool" disabled>◀ Précédente</button>
+    <button id="exp-up" class="xp-tool" disabled>▲ Dossier parent</button>
+  </div>
+  <div class="explorer-address"><span>Adresse</span><div id="exp-address">C:\Mes documents\Projets</div></div>
+  <div class="explorer-layout">
+    <aside class="explorer-side">
+      <div class="side-panel">
+        <h4>Gestion des fichiers</h4>
+        <a href="#" data-window="window-contact">✉ Me contacter</a>
+        <a href="#" data-window="window-cv">📄 Voir mon CV</a>
+      </div>
+      <div class="side-panel">
+        <h4>Autres emplacements</h4>
+        <a href="#" id="exp-root">📁 Projets</a>
+        <a href="#" data-window="window-studio">🖼 Galerie</a>
+      </div>
+      <div class="side-panel">
+        <h4>Détails</h4>
+        <p id="exp-details"></p>
+      </div>
+    </aside>
+    <div class="window-content explorer-body"><div id="projets-grid"></div></div>
+  </div>
+  <div class="xp-status" id="exp-status"></div>
+  <div class="resize-handle"></div>
+</div>
+
+<div class="window hidden" id="window-projet" style="top: 20%; left: 24%; width: 600px;" data-min-width="360" data-min-height="240">
+  <div class="title-bar">
+    <span class="title-text">Visionneuse</span>
+    <div class="window-controls">
+      <button class="min-btn" aria-label="Réduire">_</button>
+      <button class="zoom-btn" aria-label="Agrandir">□</button>
+      <button class="close-btn" aria-label="Fermer">×</button>
+    </div>
+  </div>
+  <div class="window-content projet-view">
+    <div class="projet-image"></div>
+    <div class="projet-info">
+      <h3 class="projet-nom"></h3>
+      <p class="projet-desc"></p>
+      <div class="projet-tags"></div>
+      <a class="mailto-btn projet-lien" target="_blank" rel="noopener" style="display:none">Voir le projet</a>
+      <p class="cta"><a href="#" data-window="window-contact">Un projet en tête ? Écris-moi</a></p>
+    </div>
+  </div>
+  <div class="resize-handle"></div>
+</div>
+
+<div class="window hidden" id="window-about" style="top: 20%; left: 30%; width: 340px;">
+  <div class="title-bar">
+    <span class="title-text">À propos de Windows XP</span>
+    <div class="window-controls">
+      <button class="min-btn" aria-label="Réduire">_</button>
+      <button class="zoom-btn" aria-label="Agrandir">□</button>
+      <button class="close-btn" aria-label="Fermer">×</button>
+    </div>
+  </div>
+  <div class="window-content">
+    <p><strong>Portfolio Windows XP Edition</strong></p>
+    <p>Conçu par Justin Dejean — Étudiant en BUT MMI à l'Université de Caen Normandie.</p>
+    <p style="margin-top:10px; color:#666; font-size:11px;">Inspiré de l'ambiance rétro et développé en Vanilla JS.</p>
+    <p style="margin-top:10px; color:#666; font-size:11px;">Sprite du personnage : Universal LPC Spritesheet Character Generator (détails dans jeu/CREDITS.md).</p>
+  </div>
+  <div class="resize-handle"></div>
+</div>
+
+<div class="window hidden" id="window-trash" style="top: 32%; left: 35%; width: 320px;">
+  <div class="title-bar">
+    <span class="title-text">Corbeille</span>
+    <div class="window-controls">
+      <button class="min-btn" aria-label="Réduire">_</button>
+      <button class="zoom-btn" aria-label="Agrandir">□</button>
+      <button class="close-btn" aria-label="Fermer">×</button>
+    </div>
+  </div>
+  <div class="window-content">
+    <p>La corbeille est vide. Rien à supprimer ici !</p>
+  </div>
+  <div class="resize-handle"></div>
+</div>
+
+<script src="config.js"></script>
+<script src="i18n.js"></script>
+<script src="projets.js"></script>
+<script src="sons.js"></script>
+<script src="script.js"></script>
+<script src="demineur.js"></script>
+<script src="msn.js"></script>
+<script src="nav.js"></script>
+<script src="bureau.js"></script>
+<script src="jeu/data.js"></script>
+<script src="jeu/render2d.js"></script>
+<script src="jeu/jeu.js"></script>
+</body>
+</html>
