@@ -1,0 +1,1 @@
+Dépose ici les images de tes projets (ex. hinge.jpg), puis renseigne leur chemin dans projets.js : image: 'projets/hinge.jpg'
