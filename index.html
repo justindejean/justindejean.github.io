@@ -15,8 +15,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
-<link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="jeu/jeu.css">
+<link rel="stylesheet" href="style.css?v=24">
+<link rel="stylesheet" href="jeu/jeu.css?v=24">
 </head>
 <body>
 
@@ -150,11 +150,11 @@
     <div class="start-cols">
       <div class="start-left">
         <button data-window="window-nav"><span class="si">🌐</span><span><b>Internet</b><small>Naviguer sur le web</small></span></button>
-        <button data-window="window-projets"><span class="si">📁</span><span><b>Projets</b><small>Vidéo, graphisme, web</small></span></button>
+        <button data-window="window-projets"><span class="si">📁</span><span><b>Projets</b><small>Avatar, chartes, robot</small></span></button>
         <button data-window="window-studio"><span class="si">🖼</span><span><b>Galerie</b><small>Se balader dans mes travaux</small></span></button>
         <button data-window="window-cv"><span class="si">📄</span><span><b>CV</b><small>Formation et compétences</small></span></button>
         <button data-window="window-contact"><span class="si">✉</span><span><b>Contact</b><small>Un projet en tête ?</small></span></button>
-        <button data-window="window-msn"><span class="si">💬</span><span><b>Messenger</b><small>Discuter avec Justin</small></span></button>
+        <button data-window="window-msn"><span class="si">💬</span><span><b>Messenger</b><small>Discuter avec <span data-mascotte-name>Mascotte</span></small></span></button>
         <button data-window="window-musique"><span class="si">🎧</span><span><b>Musique</b><small>Ma playlist Spotify</small></span></button>
         <hr>
         <button data-window="window-demineur"><span class="si">💣</span><span><b>Démineur</b><small>Une pause ?</small></span></button>
@@ -164,7 +164,9 @@
         <button data-window="window-studio">Mes images</button>
         <button data-window="window-trash">Corbeille</button>
         <hr>
-        <button data-window="window-about">À propos</button>
+        <button data-run>Exécuter... (Ctrl+K)</button>
+<button data-tour>Revoir la visite guidée</button>
+<button data-window="window-about">À propos</button>
       </div>
     </div>
     <div class="start-menu-footer">
@@ -179,7 +181,7 @@
   <button data-act="reload">Actualiser</button>
   <hr>
   <button data-window="window-contact">Nouveau ▸ Message pour Justin</button>
-  <button data-window="window-msn">Discuter avec Justin</button>
+  <button data-window="window-msn">Discuter avec <span data-mascotte-name>Mascotte</span></button>
   <hr>
   <button data-theme="colline">Thème : Colline (bleu)</button>
   <button data-theme="desert">Thème : Désert (olive)</button>
@@ -201,19 +203,22 @@
 
 <div id="clippy" class="hidden">
   <div class="clippy-bubble">
-    <p>Il semblerait que vous cherchiez un monteur vidéo… Voulez-vous de l'aide ?</p>
+    <p>Psst… Il semblerait que tu cherches un monteur vidéo. Je peux t'aider ?</p>
     <div class="clippy-actions">
-      <button data-clippy="videos">Voir les vidéos</button>
+      <button data-clippy="videos">Voir les projets</button>
       <button data-clippy="msn">Discuter</button>
-      <button data-clippy="contact">Me contacter</button>
+      <button data-clippy="contact">Contacter Justin</button>
       <button data-clippy="close">Non merci</button>
     </div>
   </div>
-  <svg class="clippy-body" viewBox="0 0 40 70" width="44" height="76" aria-hidden="true">
-    <path d="M22 8 Q8 8 8 22 V50 Q8 64 21 64 Q34 64 34 50 V20 Q34 14 28 14 Q22 14 22 20 V46" fill="none" stroke="#8a8f99" stroke-width="4" stroke-linecap="round"/>
-    <circle cx="17" cy="30" r="4.5" fill="#fff" stroke="#333"/><circle cx="27" cy="30" r="4.5" fill="#fff" stroke="#333"/>
-    <circle cx="17.5" cy="31" r="1.8" fill="#000"/><circle cx="27.5" cy="31" r="1.8" fill="#000"/>
-  </svg>
+  <img class="clippy-body" src="assets/mascotte.svg" width="56" alt="" aria-hidden="true">
+</div>
+
+<!-- Mascotte : bulle discrète pour les visiteurs qui reviennent -->
+<div id="masc-toast" class="hidden" role="status">
+  <img src="assets/mascotte.svg" width="44" alt="">
+  <div class="masc-toast-main"><p id="masc-toast-text"></p><div id="masc-toast-actions"></div></div>
+  <button type="button" id="masc-toast-close" aria-label="Fermer">×</button>
 </div>
 
 <!-- ============ FENÊTRES ============ -->
@@ -366,16 +371,36 @@
   <div class="resize-handle"></div>
 </div>
 
-<div class="window hidden" id="window-msn" style="top: 14%; left: 36%; width: 360px; height: 460px;" data-min-width="280" data-min-height="320">
+<div class="window hidden" id="window-mascotte" style="top: 10%; left: 28%; width: 520px; height: 400px;" data-min-width="320" data-min-height="300">
   <div class="title-bar">
-    <span class="title-text">Messenger — Justin Dejean</span>
+    <span class="title-text" data-masc-title="Bienvenue">Mascotte — Bienvenue</span>
     <div class="window-controls">
       <button class="min-btn" aria-label="Réduire">_</button>
       <button class="zoom-btn" aria-label="Agrandir">□</button>
       <button class="close-btn" aria-label="Fermer">×</button>
     </div>
   </div>
-  <div class="msn-head"><span class="avatar">JD</span><div><b>Justin Dejean</b><small><i class="msn-dot"></i> En ligne</small></div></div>
+  <div class="window-content window-content--flush masc-body">
+    <div class="masc-stage">
+      <img class="masc-img" id="masc-img" src="assets/mascotte.svg" alt="">
+      <div class="masc-bubble" id="masc-bubble" aria-live="polite"><p id="masc-text"></p></div>
+    </div>
+    <div class="masc-actions" id="masc-actions"></div>
+    <div class="masc-dots" id="masc-dots" aria-hidden="true"></div>
+  </div>
+  <div class="resize-handle"></div>
+</div>
+
+<div class="window hidden" id="window-msn" style="top: 14%; left: 36%; width: 360px; height: 460px;" data-min-width="280" data-min-height="320">
+  <div class="title-bar">
+    <span class="title-text" data-masc-title="Messenger">Messenger — Mascotte</span>
+    <div class="window-controls">
+      <button class="min-btn" aria-label="Réduire">_</button>
+      <button class="zoom-btn" aria-label="Agrandir">□</button>
+      <button class="close-btn" aria-label="Fermer">×</button>
+    </div>
+  </div>
+  <div class="msn-head"><span class="avatar avatar-masc"><img src="assets/mascotte.svg" alt=""></span><div><b data-mascotte-name>Mascotte</b><small><i class="msn-dot"></i> En ligne</small></div></div>
   <div class="window-content window-content--flush msn-body">
     <div id="msn-log" aria-live="polite"></div>
     <div id="msn-options"></div>
@@ -534,17 +559,23 @@
   <div class="resize-handle"></div>
 </div>
 
-<script src="config.js"></script>
-<script src="i18n.js"></script>
-<script src="projets.js"></script>
-<script src="sons.js"></script>
-<script src="script.js"></script>
-<script src="demineur.js"></script>
-<script src="msn.js"></script>
-<script src="nav.js"></script>
-<script src="bureau.js"></script>
-<script src="jeu/data.js"></script>
-<script src="jeu/render2d.js"></script>
-<script src="jeu/jeu.js"></script>
+<script src="config.js?v=24"></script>
+<script src="i18n.js?v=24"></script>
+<script src="projets.js?v=24"></script>
+<script src="sons.js?v=24"></script>
+<script src="script.js?v=24"></script>
+<script src="demineur.js?v=24"></script>
+<script src="mascotte.js?v=24"></script>
+<script src="guide-svg.js?v=24"></script>
+<script src="guide.js?v=24"></script>
+<script src="guide-os.js?v=24"></script>
+<script src="msn.js?v=24"></script>
+<script src="nav.js?v=24"></script>
+<script src="bureau.js?v=24"></script>
+<script src="fenetres.js?v=24"></script>
+<script src="extras.js?v=24"></script>
+<script src="jeu/data.js?v=24"></script>
+<script src="jeu/render2d.js?v=24"></script>
+<script src="jeu/jeu.js?v=24"></script>
 </body>
 </html>

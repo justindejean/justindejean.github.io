@@ -48,6 +48,14 @@
   /* ---------- Fenêtres ---------- */
   let zTop = 10;
   const windows = Array.from(document.querySelectorAll('.window'));
+  // taille et position « PC » d'origine, pour les retrouver quand l'écran s'agrandit (mobile -> PC, rotation, redimensionnement)
+  windows.forEach(w => { w.dataset.dl = w.style.left; w.dataset.dt = w.style.top; w.dataset.dw = w.style.width; w.dataset.dh = w.style.height; });
+  function restoreDefaults(win) {
+    win.style.left = win.dataset.dl; win.style.top = win.dataset.dt;
+    win.style.width = win.dataset.dw; win.style.height = win.dataset.dh;
+    if (win.classList.contains('is-pdf')) win.style.width = 'min(860px, 94vw)';
+    delete win.dataset.shrunk;
+  }
 
   function focusWindow(win) {
     windows.forEach(w => w.classList.toggle('is-active', w === win));
@@ -64,8 +72,9 @@
     if (wasHidden) {
       win.classList.add('is-opening');
       setTimeout(() => win.classList.remove('is-opening'), 200);
+      restoreDefaults(win);
       clampIntoView(win);
-      if (window.innerWidth <= 700 && !win.dataset.zoomed) toggleMaximize(win);   // téléphone : fenêtres en plein écran
+      if (isCompact()) phoneFit(win);   // mobile comme PC : fenêtre normale, recadrée dans l'écran (le bouton □ permet le plein écran)
     }
     document.dispatchEvent(new CustomEvent('win:open', { detail: id }));
     if (id === 'window-studio' && window.onStudioOpen) window.onStudioOpen();
@@ -97,16 +106,37 @@
   window.openWindow = openWindow;
   window.closeWindow = closeWindow;
 
-  function clampIntoView(win) {
-    const r = win.getBoundingClientRect();
-    let left = r.left, top = r.top;
-    left = Math.max(4, Math.min(left, window.innerWidth - r.width - 4));
-    top = Math.max(26, Math.min(top, window.innerHeight - 60));
-    win.style.left = left + 'px';
-    win.style.top = top + 'px';
-  }
-
   const TASKBAR_H = 32;
+  const EDGE = 4;
+  const isCompact = () => window.innerWidth <= 700 || window.innerHeight <= 520;   // téléphone (portrait ou paysage)
+
+  /* Garde toute la fenêtre à l'écran, AU-DESSUS de la barre des tâches (jamais dessous) */
+  function clampIntoView(win) {
+    if (!win || win.dataset.zoomed) return;
+    const maxW = window.innerWidth - 2 * EDGE;
+    const maxH = window.innerHeight - TASKBAR_H - 2 * EDGE;
+    // offsetWidth / offsetLeft : tailles de mise en page, non faussées par l'animation d'ouverture
+    if (win.offsetWidth > maxW) { win.style.width = maxW + 'px'; win.dataset.shrunk = '1'; }
+    if (win.offsetHeight > maxH) { win.style.height = maxH + 'px'; win.dataset.shrunk = '1'; }
+    const w = win.offsetWidth, h = win.offsetHeight;
+    win.style.left = Math.max(EDGE, Math.min(win.offsetLeft, window.innerWidth - w - EDGE)) + 'px';
+    win.style.top = Math.max(EDGE, Math.min(win.offsetTop, window.innerHeight - TASKBAR_H - h - EDGE)) + 'px';
+  }
+  let phoneN = 0;
+  function phoneFit(win) {                               // téléphone : vraie fenêtre posée sur le bureau, pas un plein écran
+    if (win.dataset.zoomed) return;
+    const vw = window.innerWidth, vh = window.innerHeight - TASKBAR_H;
+    win.dataset.shrunk = '1';
+    const w = Math.min(win.offsetWidth, vw - 28);
+    win.style.width = w + 'px';
+    const hMax = Math.round(vh * (vw > window.innerHeight ? 0.94 : 0.78));
+    if (win.offsetHeight > hMax) win.style.height = hMax + 'px';
+    win.style.left = Math.round((vw - w) / 2) + 'px';
+    win.style.top = Math.round(Math.max(EDGE, Math.min(vh - win.offsetHeight - 8, 20 + (phoneN++ % 4) * 18))) + 'px';
+    clampIntoView(win);
+  }
+  window.clampWin = clampIntoView;
+
   function fitMaximized(win) {
     win.style.left = '0px';
     win.style.top = '0px';
@@ -121,6 +151,7 @@
       win.style.height = win.dataset.zh;
       delete win.dataset.zoomed;
       win.classList.remove('is-maximized');
+      if (win.dataset.shrunk) { restoreDefaults(win); clampIntoView(win); if (isCompact()) phoneFit(win); }
     } else {
       win.dataset.zl = win.style.left;
       win.dataset.zt = win.style.top;
@@ -132,9 +163,17 @@
     }
     focusWindow(win);
   }
-  window.addEventListener('resize', () => {
-    windows.forEach(w => { if (w.dataset.zoomed) fitMaximized(w); });
-  });
+  function refitAll() {
+    windows.forEach(w => {
+      if (w.classList.contains('hidden')) return;
+      if (w.dataset.zoomed) { fitMaximized(w); return; }
+      if (w.dataset.shrunk) restoreDefaults(w);          // l'écran a changé : on repart de la taille d'origine
+      clampIntoView(w);
+      if (isCompact()) phoneFit(w);
+    });
+  }
+  window.addEventListener('resize', refitAll);
+  window.addEventListener('orientationchange', () => setTimeout(refitAll, 250));
 
   window.focusWindow = focusWindow;
   window.toggleMaximize = toggleMaximize;
@@ -186,13 +225,14 @@
     const target = icon.dataset.window;
 
     icon.addEventListener('pointerdown', e => {
+      icon._touch = e.pointerType !== 'mouse';          // doigt ou stylet détecté
       e.stopPropagation();
       document.querySelectorAll('.icon').forEach(i => i.classList.remove('is-selected'));
       icon.classList.add('is-selected');
     });
 
     icon.addEventListener('dblclick', () => target && openWindow(target));
-    if (coarse) icon.addEventListener('click', () => target && openWindow(target));
+    icon.addEventListener('click', () => { if ((coarse || icon._touch) && target) openWindow(target); });
 
     icon.tabIndex = 0;
     icon.addEventListener('keydown', e => {
@@ -233,8 +273,8 @@
     const r = dragWin.getBoundingClientRect();
     let left = e.clientX - dx;
     let top = e.clientY - dy;
-    left = Math.max(-r.width + 80, Math.min(left, window.innerWidth - 80));
-    top = Math.max(0, Math.min(top, window.innerHeight - 30));
+    left = Math.max(0, Math.min(left, window.innerWidth - r.width));
+    top = Math.max(0, Math.min(top, window.innerHeight - TASKBAR_H - r.height));
     dragWin.style.left = left + 'px';
     dragWin.style.top = top + 'px';
   });
@@ -307,8 +347,8 @@
     handle.addEventListener('pointermove', e => {
       if (!active) return;
       const r = win.getBoundingClientRect();
-      const maxW = window.innerWidth - r.left - 6;
-      const maxH = window.innerHeight - r.top - 6;
+      const maxW = window.innerWidth - r.left - 2;
+      const maxH = window.innerHeight - TASKBAR_H - r.top - 2;
       const w = Math.max(minW, Math.min(maxW, startW + (e.clientX - startX)));
       const h = Math.max(minH, Math.min(maxH, startH + (e.clientY - startY)));
       win.style.width = w + 'px';

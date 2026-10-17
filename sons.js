@@ -3,7 +3,7 @@
   'use strict';
   let ctx = null;
   let muted = false;
-  try { muted = localStorage.getItem('sonCoupe') === '1'; } catch (e) {}
+  try { const v = localStorage.getItem('sonCoupe'); muted = v === null ? true : v === '1'; } catch (e) {}
 
   function getCtx() {
     if (!ctx) {

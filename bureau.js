@@ -70,6 +70,21 @@
     ctx.style.left = Math.min(e.clientX, window.innerWidth - 190) + 'px';
     ctx.style.top = Math.min(e.clientY, window.innerHeight - 140) + 'px';
   });
+  // Tactile : appui long sur le fond du bureau = clic droit
+  (function () {
+    const d = $('desktop'); let t = null, sx = 0, sy = 0;
+    const cancel = () => { clearTimeout(t); t = null; };
+    d.addEventListener('touchstart', e => {
+      if (e.target !== d || e.touches.length !== 1) return;
+      sx = e.touches[0].clientX; sy = e.touches[0].clientY;
+      t = setTimeout(() => {
+        d.dispatchEvent(new MouseEvent('contextmenu', { bubbles: true, cancelable: true, clientX: sx, clientY: sy }));
+        t = null;
+      }, 550);
+    }, { passive: true });
+    d.addEventListener('touchmove', e => { const p = e.touches[0]; if (t && Math.hypot(p.clientX - sx, p.clientY - sy) > 10) cancel(); }, { passive: true });
+    d.addEventListener('touchend', cancel); d.addEventListener('touchcancel', cancel);
+  })();
   document.addEventListener('pointerdown', e => { if (!e.target.closest('#ctx-menu')) hideCtx(); });
   ctx.addEventListener('click', e => {
     const b = e.target.closest('button'); if (!b) return;
@@ -122,7 +137,11 @@
   const clip = $('clippy');
   function hideClippy() { clip.classList.add('hidden'); }
   function showClippy() {
+    if (window.Guide) return;                                              // Guide remplace l'assistant
     if (session.get('clippyVu')) return;
+    if (window.Mascotte && !window.Mascotte.first) return;                 // visiteur qui revient : on ne force rien
+    const tour = document.getElementById('window-mascotte');
+    if (tour && !tour.classList.contains('hidden')) return;               // la visite est en cours
     session.set('clippyVu');
     if (window.hideInvite) window.hideInvite();
     clip.classList.remove('hidden');
@@ -132,7 +151,7 @@
     hideClippy();
     if (b.dataset.clippy === 'contact') window.openWindow('window-contact');
     if (b.dataset.clippy === 'msn') window.openWindow('window-msn');
-    if (b.dataset.clippy === 'videos' && window.openProjectFolder) window.openProjectFolder('video');
+    if (b.dataset.clippy === 'videos' && window.openProjectFolder) window.openProjectFolder('robot');
   });
   setTimeout(showClippy, 28000);
 
