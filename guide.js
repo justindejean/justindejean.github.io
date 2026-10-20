@@ -192,7 +192,8 @@
   try { muted = localStorage.getItem('guideMute') === '1'; seen = JSON.parse(localStorage.getItem('guideVu') || '[]'); } catch (e) {}
   if (FORCE) { muted = false; seen = []; try { ['guideMute', 'guideVu', 'guideTold', 'guideTuto', 'guideAch'].forEach(k => localStorage.removeItem(k)); } catch (e) {} }
   // 1re visite : tuto + astuces ; visites 2-3 : astuces seulement ; ensuite : silence (sauf si on le sollicite)
-  const base = V <= 1 ? 3 : V <= 3 ? 2 : 0;
+  let tutoFait = false; try { tutoFait = localStorage.getItem('guideTuto') === '1'; } catch (e) {}   // tuto terminé ou refusé : un F5 ne le relance plus (?tuto=1 pour le revoir)
+  const base = V <= 1 && !tutoFait ? 3 : V <= 3 ? 2 : 0;
   let level = muted ? 0 : base;
   const setMute = v => { muted = v; level = v ? 0 : base; try { localStorage.setItem('guideMute', v ? '1' : '0'); } catch (e) {} };
   const mark = id => { if (seen.indexOf(id) < 0) { seen.push(id); try { localStorage.setItem('guideVu', JSON.stringify(seen)); } catch (e) {} } };
@@ -222,7 +223,7 @@
     const c = await (say(L("Salut ! Moi c'est " + NAME + ", je vis dans cet ordinateur. Bienvenue sur le portfolio de Justin Dejean. Je te montre comment ça marche ?", "Hi! I'm " + NAME + ", I live inside this computer. Welcome to Justin Dejean's portfolio. Want a quick demo?"),
       [{ label: L('Visite rapide', 'Quick tour'), main: true, v: 'tour' }, { label: L('Je me débrouille', "I'll manage"), v: 'no' }]));   // rien d'automatique : on attend la décision du visiteur
     if (c === 'tour') await visit();
-    else { dock(true); await sleep(calm ? 0 : 800); await say(L('Pas de souci. Clique sur moi si tu as besoin.', 'No problem. Click me if you need anything.')); hideT = setTimeout(hideB, 2500); }
+    else { try { localStorage.setItem('guideTuto', '1'); } catch (e) {} dock(true); await sleep(calm ? 0 : 800); await say(L('Pas de souci. Clique sur moi si tu as besoin.', 'No problem. Click me if you need anything.')); hideT = setTimeout(hideB, 2500); }
     busy = false;
   }
   const NOMS = { 'window-projets': 'Projets', 'window-cv': 'CV', 'window-studio': 'Galerie', 'window-contact': 'Contact', 'window-musique': 'Musique', 'window-msn': 'Messenger' };
