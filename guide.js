@@ -68,7 +68,7 @@
       };
       if (calm) { done(); return; }
       let i = 0; bub.onclick = done;
-      typer = setInterval(() => { p.textContent = txt.slice(0, ++i); if (i >= txt.length) done(); }, document.body.classList.contains('gd-tour') ? 11 : 18);   // texte du tuto plus rapide
+      typer = setInterval(() => { p.textContent = txt.slice(0, ++i); if (i >= txt.length) done(); }, document.body.classList.contains('gd-tour') ? 7 : 18);   // texte du tuto plus rapide
     });
   }
   function quip(txt) {
@@ -106,9 +106,11 @@
     // Les fenêtres sont mesurées par leur boîte de mise en page (insensible à l'animation d'ouverture) ; le halo jaune est une classe
     // posée sur la fenêtre / la barre de titre / le bouton : il bouge, grandit et disparaît avec eux, au même instant.
     const rectOf = t => t.classList.contains('window') ? { left: t.offsetLeft, top: t.offsetTop, right: t.offsetLeft + t.offsetWidth, bottom: t.offsetTop + t.offsetHeight, width: t.offsetWidth, height: t.offsetHeight } : t.getBoundingClientRect();
+    const poly = (x1, y1, x2, y2) => 'polygon(evenodd, 0 0, 100% 0, 100% 100%, 0 100%, 0 0, ' + [x1 + 'px ' + y1 + 'px', x1 + 'px ' + y2 + 'px', x2 + 'px ' + y2 + 'px', x2 + 'px ' + y1 + 'px', x1 + 'px ' + y1 + 'px'].join(', ') + ')';
     const setHole = r => {
       if (!dimOn) return; const x1 = r.left - 10, y1 = r.top - 10, x2 = r.right + 10, y2 = r.bottom + 10;
-      dimEl.style.clipPath = 'polygon(evenodd, 0 0, 100% 0, 100% 100%, 0 100%, 0 0, ' + [x1 + 'px ' + y1 + 'px', x1 + 'px ' + y2 + 'px', x2 + 'px ' + y2 + 'px', x2 + 'px ' + y1 + 'px', x1 + 'px ' + y1 + 'px'].join(', ') + ')'; dimEl.style.opacity = 1;
+      if (!dimEl.style.clipPath) { const cx = (x1 + x2) / 2, cy = (y1 + y2) / 2; dimEl.style.clipPath = poly(cx, cy, cx, cy); void dimEl.offsetWidth; }   // 1er trou : part du centre, donc il s'ouvre en douceur
+      dimEl.style.clipPath = poly(x1, y1, x2, y2); dimEl.style.opacity = 1;
     };
     const target = sel => {                                    // cadre jaune pour les cibles fixes (icônes)
       const t = document.querySelector(sel); if (!t) { ring.style.opacity = 0; return null; }
@@ -135,40 +137,49 @@
       ['#icon-projets', 'window-projets', 'Ses projets : avatars, chartes graphiques et le Robot collectif.', 'His projects: avatars, brand guidelines and the Collective Robot.'],
       ['#icon-studio', null, 'La galerie : un petit musée 2D à explorer.', 'The gallery: a small 2D museum to explore.'],
       ['#icon-cv', 'window-cv', 'Son CV : formation, compétences, expériences.', 'His resume: education, skills, experience.'],
+      ['#icon-msn', null, 'Messenger : discute avec une IA qui répond comme Justin. Pose-lui tes questions.', 'Messenger: chat with an AI that answers like Justin. Ask it anything.'],
       ['#icon-contact', null, "Un stage ou un projet ? C'est ici que ça se passe.", 'An internship or a project? This is where it happens.']
     ];
     dimOn = true; let shown = null;
-    for (let i = 0; i < PRES.length && !skipped; i++) {
+    for (let i = 0; i < PRES.length && !skipped;) {
       const s = PRES[i], msg = L(s[2], s[3]); let r; clearLit();
       if (shown && shown !== s[1]) { window.closeWindow(shown); shown = null; }
       if (s[1] && !touch) { window.openWindow(s[1]); shown = s[1]; light('#' + s[1]); ring.style.opacity = 0; r = rectOf($(s[1])); setHole(r); }
       else r = target(s[0]);
       stepEl.textContent = L('Présentation ', 'Overview ') + (i + 1) + ' / ' + PRES.length;
       if (r && !touch) placeBy(r);
-      await Promise.race([skipP, say(msg, [{ label: L('Suivant ▸', 'Next ▸'), main: true }]), sleep(Math.max(2600, msg.length * 40) + msg.length * 11)]);
+      const nav = [{ label: L('Suivant ▸', 'Next ▸'), main: true, v: 'next' }]; if (i > 0) nav.unshift({ label: L('◂ Précédent', '◂ Back'), v: 'prev' });
+      const res = await Promise.race([skipP, say(msg, nav)]);       // aucune avance automatique : on attend que le visiteur décide
+      i = res === 'prev' ? Math.max(0, i - 1) : i + 1;
     }
     if (shown) window.closeWindow(shown);
     dimOn = false; dimEl.style.opacity = 0; ring.style.opacity = 0;
-    const N = touch ? 2 : 3;
+    const N = touch ? 2 : 4; let pre = '', minimized = false;
+    const onMin = e => { if (e.detail === ID) minimized = true; }; document.addEventListener('win:min', onMin); off.push(() => document.removeEventListener('win:min', onMin));
+          // la réaction au geste précédent est dite DANS la consigne suivante : aucune attente entre les étapes
     if (!open()) {
       const r1 = await step(1, N, L('À toi ! ', 'Your turn! ') + (touch ? L("Touche l'icône « Projets » pour l'ouvrir.", 'Tap the "Projects" icon to open it.') : L("Ouvre « Projets » : double-clique sur l'icône.", 'Open "Projects": double-click the icon.')), '#icon-projets', ['win:open'], e => e.detail === ID);
-      if (r1 !== 'skip') await react(L('Voilà, une vraie fenêtre !', 'There, a real window!'));
+      if (r1 !== 'skip') pre = L('Voilà, une vraie fenêtre ! ', 'There, a real window! ');
     }
     if (!skipped && !touch && open()) {
       const b = { l: w.offsetLeft, t: w.offsetTop };
-      const r2 = await step(2, N, L('Déplace-la : attrape sa barre de titre et fais-la glisser.', 'Move it: grab its title bar and drag.'), '#' + ID + ' .title-bar', ['win:move', 'win:min', 'win:close'],
+      const r2 = await step(2, N, pre + L('Déplace-la : attrape sa barre de titre et fais-la glisser.', 'Move it: grab its title bar and drag.'), '#' + ID + ' .title-bar', ['win:move', 'win:min', 'win:close'],
         e => e.detail.id ? (e.detail.id === ID && Math.hypot(e.detail.rect.left - b.l, e.detail.rect.top - b.t) > 60) : e.detail === ID, ['#' + ID, '#' + ID + ' .title-bar']);
-      if (r2 !== 'skip') await react(L('Bien joué, tu peux les placer où tu veux.', 'Nice, you can put them anywhere.'));
+      if (r2 !== 'skip') pre = L('Bien joué ! ', 'Nice! ');
     }
     if (!skipped && open()) {
-      const r3 = await step(touch ? 2 : 3, N, touch ? L('Touche × en haut à droite pour la fermer.', 'Tap × at the top right to close it.') : L('Réduis-la avec le bouton « _ » en haut à droite.', 'Minimize it with the "_" button at the top right.'),
+      const r3 = await step(touch ? 2 : 3, N, pre + (touch ? L('Touche × en haut à droite pour la fermer.', 'Tap × at the top right to close it.') : L('Réduis-la avec le bouton « _ » en haut à droite.', 'Minimize it with the "_" button at the top right.')),
         '#' + ID + (touch ? ' .close-btn' : ' .min-btn'), touch ? ['win:close'] : ['win:min', 'win:close'], e => e.detail === ID, ['#' + ID + (touch ? ' .close-btn' : ' .min-btn')]);
-      if (r3 !== 'skip') await react(touch ? L('Parfait, tu sais tout ce qu\'il faut.', 'Perfect, that is all you need.') : L('Elle est dans la barre des tâches : clique dessus pour la rouvrir.', 'It is in the taskbar: click it to reopen.'));
+      if (r3 !== 'skip') { if (touch) await react(L("Parfait, tu sais tout ce qu'il faut.", 'Perfect, that is all you need.')); else pre = L('Elle est dans la barre des tâches. ', 'It is in the taskbar. '); }
+    }
+    if (!skipped && !touch && minimized) {                      // le tuto ne se termine que lorsqu'elle est vraiment rouverte
+      const r4 = await step(4, N, pre + L('Clique sur son bouton pour la rouvrir.', 'Click its button to reopen it.'), '#menu-bar .taskbar-item', ['win:restore', 'win:open'], e => e.detail === ID, ['#menu-bar .taskbar-item']);
+      if (r4 !== 'skip') await react(L('Parfait, tu maîtrises les fenêtres !', 'Perfect, you have got windows figured out!'));
     }
     clearLit(); off.forEach(f => f()); skipFn = null; ring.remove(); dimEl.remove(); skipB.remove(); stepEl.remove(); document.body.classList.remove('gd-tour'); pose(null); dock(true);
     try { localStorage.setItem('guideTuto', '1'); } catch (e) {}
     if (skipped) { await say(L('Pas de souci. Clique sur moi si tu as besoin.', 'No problem. Click me if you need anything.')); hideT = setTimeout(hideB, 2500); return; }
-    await sleep(calm ? 0 : 600);
+    await sleep(calm ? 0 : 300);
     await say(L("C'est tout ! Astuce : Ctrl+K pour aller n'importe où. Je me fais discret.", 'That is it! Tip: Ctrl+K to go anywhere. I will keep a low profile.'), [{ label: L('Compris', 'Got it'), main: true }]);
     hideB();
   }
@@ -208,8 +219,8 @@
   async function intro() {                                   // 1re visite : choix immédiat, rien d'automatique
     busy = true; if (window.hideInvite) window.hideInvite();
     show(innerWidth / 2 - W() / 2 - 120, innerHeight / 2 - 120); await sleep(calm ? 0 : 500);
-    const c = await Promise.race([say(L("Salut ! Moi c'est " + NAME + ", je vis dans cet ordinateur. Bienvenue sur le portfolio de Justin Dejean. Je te montre comment ça marche ?", "Hi! I'm " + NAME + ", I live inside this computer. Welcome to Justin Dejean's portfolio. Want a quick demo?"),
-      [{ label: L('Visite rapide (30 s)', 'Quick tour (30 s)'), main: true, v: 'tour' }, { label: L('Je me débrouille', "I'll manage"), v: 'no' }]), sleep(calm ? 6000 : 8000).then(() => 'tour')]);   // sans réponse : la visite démarre seule
+    const c = await (say(L("Salut ! Moi c'est " + NAME + ", je vis dans cet ordinateur. Bienvenue sur le portfolio de Justin Dejean. Je te montre comment ça marche ?", "Hi! I'm " + NAME + ", I live inside this computer. Welcome to Justin Dejean's portfolio. Want a quick demo?"),
+      [{ label: L('Visite rapide', 'Quick tour'), main: true, v: 'tour' }, { label: L('Je me débrouille', "I'll manage"), v: 'no' }]));   // rien d'automatique : on attend la décision du visiteur
     if (c === 'tour') await visit();
     else { dock(true); await sleep(calm ? 0 : 800); await say(L('Pas de souci. Clique sur moi si tu as besoin.', 'No problem. Click me if you need anything.')); hideT = setTimeout(hideB, 2500); }
     busy = false;
