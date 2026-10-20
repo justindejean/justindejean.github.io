@@ -1057,3 +1057,18 @@ body { position: fixed; top: 0; left: 0; right: 0; width: 100%; overscroll-behav
 button.gd-hl { box-shadow: 0 0 0 3px #ffb900, 0 0 12px 3px rgba(255,185,0,.9); position: relative; z-index: 2; }
 #gd-ring { transition: all .18s ease-out; }
 #gd-dim { transition: opacity .2s; }
+.taskbar-item.gd-hl { box-shadow: 0 0 0 3px #ffb900, 0 0 12px 3px rgba(255,185,0,.9); position: relative; z-index: 2; }
+
+/* tuto : la lueur et le trou du grisé glissent d'une appli à l'autre (plus d'apparition instantanée) */
+#gd-ring { transition: left .45s cubic-bezier(.4,0,.2,1), top .45s cubic-bezier(.4,0,.2,1), width .45s cubic-bezier(.4,0,.2,1), height .45s cubic-bezier(.4,0,.2,1), opacity .3s; }
+#gd-dim { transition: opacity .3s, clip-path .45s cubic-bezier(.4,0,.2,1); }
+body.gd-tour .window, body.gd-tour .title-bar, body.gd-tour .window-controls button, body.gd-tour .taskbar-item { transition: box-shadow .4s ease; }
+@media (prefers-reduced-motion: reduce) { #gd-ring, #gd-dim, body.gd-tour .window, body.gd-tour .title-bar { transition-duration: .01s; } }
+
+/* renommer (renommer.js) */
+#rn-menu { position: fixed; z-index: 9500; min-width: 210px; padding: 2px; background: #fff; border: 1px solid #aca899; box-shadow: 3px 3px 5px rgba(0,0,0,.35); font: 12px Tahoma, sans-serif; }
+#rn-menu.hidden { display: none; }
+#rn-menu button { display: block; width: 100%; padding: 5px 24px; text-align: left; background: none; border: 0; font: inherit; color: #000; cursor: default; white-space: nowrap; }
+#rn-menu button:hover:not(:disabled) { background: #316ac5; color: #fff; }
+#rn-menu button:disabled { color: #9a9a9a; }
+.rn-input { width: 100%; min-width: 70px; box-sizing: border-box; padding: 1px 2px; font: inherit; font-size: 11px; text-align: center; color: #000; background: #fff; border: 1px solid #316ac5; border-radius: 0; outline: none; user-select: text; -webkit-user-select: text; }

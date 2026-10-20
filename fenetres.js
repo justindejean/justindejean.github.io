@@ -5,7 +5,7 @@
    ========================================================= */
 (function () {
   'use strict';
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;   // pas d'animation, mais les événements win:* partent toujours (le tuto en dépend)
   const $ = id => document.getElementById(id);
   const wins = Array.from(document.querySelectorAll('.window'));
   const EASE = 'cubic-bezier(.2,.8,.2,1)';
@@ -20,6 +20,7 @@
   // transformation qui place la boîte "to" exactement sur la boîte "from"
   const tfm = (f, t) => 'translate(' + (f.left + f.width / 2 - t.left - t.width / 2) + 'px,' + (f.top + f.height / 2 - t.top - t.height / 2) + 'px) scale(' + (f.width / t.width) + ',' + (f.height / t.height) + ')';
   function play(w, frames, ms, done) {
+    if (REDUCE) { if (done) done(); return; }
     if (w._a) w._a.cancel();
     const a = w._a = w.animate(frames, { duration: ms, easing: EASE, fill: 'both' });
     a.onfinish = () => { if (w._a === a) { w._a = null; a.cancel(); if (done) done(); } };
