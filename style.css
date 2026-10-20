@@ -28,9 +28,10 @@ body {
   flex-direction: column;
   color: var(--ink);
   background-color: var(--desk);
-  background-image: url('assets/fond.svg'), radial-gradient(circle at center, #4b84c4 0%, #295280 100%);
-  background-size: cover, cover;
-  background-position: center bottom, center;
+  /* Fond « Bliss » : dépose ta photo dans assets/bliss.jpg et elle remplace le dessin. Sans ce fichier, le dessin (fond.svg) reste affiché. */
+  background-image: url('assets/bliss.jpg'), url('assets/fond.svg'), radial-gradient(circle at center, #4b84c4 0%, #295280 100%);
+  background-size: cover, cover, cover;
+  background-position: center, center bottom, center;
 }
 
 button { font: inherit; }
