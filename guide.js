@@ -51,12 +51,20 @@
   }
 
   /* ---------- parole ---------- */
-  function hideB() { bub.classList.add('hidden'); }
+  let hbT;                                                       // la bulle s'efface en douceur (160 ms) au lieu de disparaître d'un coup
+  function hideB() {
+    if (bub.classList.contains('hidden') || bub.classList.contains('leaving')) return;
+    bub.classList.add('leaving'); clearTimeout(hbT);
+    hbT = setTimeout(() => { bub.classList.remove('leaving'); bub.classList.add('hidden'); }, 160);
+  }
   function say(txt, btns) {
     return new Promise(res => {
       clearInterval(typer); clearTimeout(hideT);
       const p = bub.querySelector('p'), bx = bub.querySelector('.gd-btns');
+      const wasShown = !bub.classList.contains('hidden') && !bub.classList.contains('leaving');
+      clearTimeout(hbT); bub.classList.remove('leaving', 'swap');
       bx.innerHTML = ''; p.textContent = ''; bub.classList.remove('hidden'); bug.classList.add('talk'); side();
+      if (wasShown) { void bub.offsetWidth; bub.classList.add('swap'); }   // nouveau message dans une bulle déjà ouverte : petit rebond
       const done = () => {
         clearInterval(typer); p.textContent = txt; bug.classList.remove('talk'); bub.onclick = null;
         (btns || []).forEach(b => {

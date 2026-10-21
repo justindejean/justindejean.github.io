@@ -1071,3 +1071,19 @@ body.gd-tour .window, body.gd-tour .title-bar, body.gd-tour .window-controls but
 #rn-menu button:hover:not(:disabled) { background: #316ac5; color: #fff; }
 #rn-menu button:disabled { color: #9a9a9a; }
 .rn-input { width: 100%; min-width: 70px; box-sizing: border-box; padding: 1px 2px; font: inherit; font-size: 11px; text-align: center; color: #000; background: #fff; border: 1px solid #316ac5; border-radius: 0; outline: none; user-select: text; -webkit-user-select: text; }
+
+/* bulles de Pixel : elles « poppent » depuis Pixel, rebondissent à chaque nouveau message et s'effacent en douceur */
+#guide-bubble { transform-origin: 0 85%; }
+#guide-bubble.left { transform-origin: 100% 85%; }
+#guide-bubble.down { transform-origin: 0 15%; }
+#guide-bubble:not(.hidden) { animation: gd-bub-in .34s cubic-bezier(.34,1.56,.64,1) both; }
+#guide-bubble.leaving { animation: gd-bub-out .16s ease-in forwards; pointer-events: none; }
+#guide-bubble.swap { animation: gd-bub-swap .26s cubic-bezier(.34,1.56,.64,1); }
+@keyframes gd-bub-in { from { opacity: 0; transform: scale(.55) translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes gd-bub-out { to { opacity: 0; transform: scale(.9) translateY(4px); } }
+@keyframes gd-bub-swap { from { transform: scale(.93); opacity: .55; } to { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {            /* mouvement réduit : simple fondu, sans zoom */
+  @keyframes gd-bub-in { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes gd-bub-out { to { opacity: 0; } }
+  @keyframes gd-bub-swap { from { opacity: .5; } to { opacity: 1; } }
+}
