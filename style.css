@@ -28,9 +28,10 @@ body {
   flex-direction: column;
   color: var(--ink);
   background-color: var(--desk);
-  background-image: url('assets/fond.svg'), radial-gradient(circle at center, #4b84c4 0%, #295280 100%);
-  background-size: cover, cover;
-  background-position: center bottom, center;
+  /* Fond « Bliss » : la photo assets/bliss.jpg s'affiche si elle existe, sinon le dessin d'origine (fond.svg) prend le relais. */
+  background-image: url('assets/bliss.jpg'), url('assets/fond.svg'), radial-gradient(circle at center, #4b84c4 0%, #295280 100%);
+  background-size: cover, cover, cover;
+  background-position: center, center bottom, center;
 }
 
 button { font: inherit; }
@@ -1119,3 +1120,7 @@ body.gd-tour .window, body.gd-tour .title-bar, body.gd-tour .window-controls but
 @keyframes crt-roll { to { transform: translateY(105vh); } }
 @keyframes crt-grain { 0% { transform: translate(0,0); } 25% { transform: translate(-23px,17px); } 50% { transform: translate(31px,-40px); } 75% { transform: translate(-45px,-12px); } }
 @media (prefers-reduced-motion: reduce) { #crt .crt-scan, #crt .crt-noise, #crt .crt-band { animation: none; } #crt .crt-on { display: none; } }
+
+/* écran CRT actif : la barre des tâches est décalée vers l'intérieur pour que « démarrer » et l'horloge ne soient plus rognés par les coins arrondis */
+html.crt-on #menu-bar { padding-left: 14px; padding-right: 14px; box-sizing: border-box; }
+html.crt-on .start-button { border-top-left-radius: 12px; border-bottom-left-radius: 12px; border-left: 1px solid #102d10; }
