@@ -60,7 +60,7 @@
   const anchor = ctx && ([...ctx.querySelectorAll('[data-theme]')].pop() || null);
   if (ctx) { if (anchor) anchor.insertAdjacentElement('afterend', btn); else ctx.appendChild(btn); }
 
-  const LBL = { full: ['complet', 'full'], light: ['léger', 'light'], off: ['désactivé', 'off'] };
+  const LBL = { full: ['complet', 'full'], off: ['désactivé', 'off'] };
   function paint() {
     if (mode === 'full') setupWarp();
     el.classList.toggle('off', mode === 'off'); el.classList.toggle('full', mode === 'full');
