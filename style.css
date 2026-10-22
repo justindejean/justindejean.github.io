@@ -1091,7 +1091,7 @@ body.gd-tour .window, body.gd-tour .title-bar, body.gd-tour .window-controls but
 
 /* =========================================================
    ÉCRAN CRT (crt.js). Couches, de bas en haut : courbure (Chrome/Edge) > halo > lignes + grille RVB > grain
-   > cadre arrondi > barre de rafraîchissement > allumage > reflet. Rien ne bloque les clics.
+   > cadre arrondi > barre de rafraîchissement > reflet. Rien ne bloque les clics.
    --crt = intensité (0 à 1). 0.8 par défaut.
    IMPORTANT : #crt n'a ni opacity, ni filter, ni will-change, sinon les backdrop-filter des couches ne voient plus la page.
    ========================================================= */
@@ -1114,12 +1114,10 @@ body.gd-tour .window, body.gd-tour .title-bar, body.gd-tour .window-controls but
   background: radial-gradient(ellipse 55% 36% at 22% 9%, rgba(255,255,255,calc(.16 * var(--crt))), transparent 70%),
               radial-gradient(ellipse 90% 90% at 50% 50%, transparent 58%, rgba(0,0,0,calc(.34 * var(--crt))) 100%); }
 #crt .crt-band { height: 22vh; bottom: auto; background: linear-gradient(transparent, rgba(255,255,255,calc(.07 * var(--crt))), transparent); transform: translateY(-24vh); animation: crt-roll 8s linear infinite; }
-#crt .crt-on { background: #e8f4ff; opacity: 0; animation: crt-power .75s cubic-bezier(.2,.7,.2,1) 1 both; }
-@keyframes crt-power { 0% { opacity: .95; transform: scale(.28, .004); } 28% { opacity: .95; transform: scale(1, .004); } 62% { opacity: .85; transform: scale(1, 1); } 100% { opacity: 0; transform: scale(1, 1); } }
 @keyframes crt-flick { 0%, 100% { opacity: 1; } 3% { opacity: .93; } 6% { opacity: 1; } 52% { opacity: .97; } 54% { opacity: 1; } }
 @keyframes crt-roll { to { transform: translateY(105vh); } }
 @keyframes crt-grain { 0% { transform: translate(0,0); } 25% { transform: translate(-23px,17px); } 50% { transform: translate(31px,-40px); } 75% { transform: translate(-45px,-12px); } }
-@media (prefers-reduced-motion: reduce) { #crt .crt-scan, #crt .crt-noise, #crt .crt-band { animation: none; } #crt .crt-on { display: none; } }
+@media (prefers-reduced-motion: reduce) { #crt .crt-scan, #crt .crt-noise, #crt .crt-band { animation: none; } }
 
 /* écran CRT actif : la barre des tâches est décalée vers l'intérieur pour que « démarrer » et l'horloge ne soient plus rognés par les coins arrondis */
 html.crt-on #menu-bar { padding-left: 14px; padding-right: 14px; box-sizing: border-box; }
