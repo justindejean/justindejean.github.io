@@ -67,8 +67,8 @@
     if (e.target.closest('.window')) return;
     e.preventDefault();
     ctx.classList.remove('hidden');
-    ctx.style.left = Math.min(e.clientX, window.innerWidth - 190) + 'px';
-    ctx.style.top = Math.min(e.clientY, window.innerHeight - 140) + 'px';
+    ctx.style.left = Math.max(4, Math.min(e.clientX, window.innerWidth - ctx.offsetWidth - 4)) + 'px';
+    ctx.style.top = Math.max(4, Math.min(e.clientY, window.innerHeight - ctx.offsetHeight - 36)) + 'px';   // 36 = barre des tâches : le menu ne dépasse jamais de l'écran
   });
   // Tactile : appui long sur le fond du bureau = clic droit
   (function () {
