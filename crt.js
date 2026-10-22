@@ -9,8 +9,9 @@
   const en = () => window.lang && window.lang() === 'en';
 
   const el = document.createElement('div');
-  el.id = 'crt'; el.setAttribute('aria-hidden', 'true'); el.innerHTML = '<i class="crt-band"></i>';
+  el.id = 'crt'; el.setAttribute('aria-hidden', 'true'); el.innerHTML = '<i class="crt-band"></i>' + (on ? '<i class="crt-on"></i>' : '');
   document.body.appendChild(el);
+  const pw = el.querySelector('.crt-on'); if (pw) pw.addEventListener('animationend', () => pw.remove());   // l'allumage ne joue qu'une fois, au chargement
 
   const ctx = document.getElementById('ctx-menu');
   const btn = document.createElement('button');
