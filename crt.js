@@ -1,7 +1,7 @@
 /* =========================================================
    ÉCRAN CRT RÉALISTE
    - Chrome / Edge : vraie courbure « bombée » du contenu (filtre SVG de déplacement en backdrop-filter),
-     halo lumineux, grille RVB, lignes de balayage, grain, scintillement, reflet, cadre arrondi, allumage.
+     halo lumineux, grille RVB, lignes de balayage, grain, scintillement, reflet, cadre arrondi.
    - Safari / Firefox / mobile : même rendu sans la courbure (ces navigateurs ne savent pas la faire).
    Clic droit sur le bureau > « Effet CRT » : complet > léger > désactivé. Le choix est mémorisé.
    ========================================================= */
@@ -15,9 +15,8 @@
 
   const el = document.createElement('div');
   el.id = 'crt'; el.setAttribute('aria-hidden', 'true');
-  el.innerHTML = '<i class="crt-warp"></i><i class="crt-glow"></i><i class="crt-scan"></i><i class="crt-noise"></i><i class="crt-glass"></i><i class="crt-band"></i>' + (mode !== 'off' ? '<i class="crt-on"></i>' : '');
+  el.innerHTML = '<i class="crt-warp"></i><i class="crt-glow"></i><i class="crt-scan"></i><i class="crt-noise"></i><i class="crt-glass"></i><i class="crt-band"></i>';
   document.body.appendChild(el);
-  const pw = el.querySelector('.crt-on'); if (pw) pw.addEventListener('animationend', () => pw.remove());   // l'allumage ne joue qu'une fois
 
   /* ---- grain analogique : une petite tuile de bruit déplacée par à-coups ---- */
   (function grain() {
