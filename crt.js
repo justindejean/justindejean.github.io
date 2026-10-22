@@ -60,10 +60,11 @@
   const anchor = ctx && ([...ctx.querySelectorAll('[data-theme]')].pop() || null);
   if (ctx) { if (anchor) anchor.insertAdjacentElement('afterend', btn); else ctx.appendChild(btn); }
 
-  const LBL = { full: ['complet', 'full'], off: ['désactivé', 'off'] };
+  const LBL = { full: ['complet', 'full'], light: ['léger', 'light'], off: ['désactivé', 'off'] };
   function paint() {
     if (mode === 'full') setupWarp();
     el.classList.toggle('off', mode === 'off'); el.classList.toggle('full', mode === 'full');
+    document.documentElement.classList.toggle('crt-on', mode !== 'off');   // le CSS décale la barre des tâches quand l'écran CRT est là
     btn.textContent = (en() ? 'CRT effect : ' : 'Effet CRT : ') + LBL[mode][en() ? 1 : 0];
   }
   btn.addEventListener('click', () => { mode = MODES[(MODES.indexOf(mode) + 1) % MODES.length]; try { localStorage.setItem(KEY, mode); } catch (e) {} paint(); });
