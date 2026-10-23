@@ -1096,7 +1096,7 @@ body.gd-tour .window, body.gd-tour .title-bar, body.gd-tour .window-controls but
    --crt = intensité (0 à 1). 0.62 par défaut.
    IMPORTANT : #crt n'a ni opacity, ni filter, ni will-change, sinon les backdrop-filter des couches ne voient plus la page.
    ========================================================= */
-#crt { --crt: .99; position: fixed; inset: 0; z-index: 99990; pointer-events: none; overflow: hidden; }
+#crt { --crt: .1; position: fixed; inset: 0; z-index: 99990; pointer-events: none; overflow: hidden; }
 #crt.off { display: none; }
 #crt > i { position: absolute; inset: 0; display: block; }
 #crt.full .crt-warp { -webkit-backdrop-filter: url(#crt-warp); backdrop-filter: url(#crt-warp); }
