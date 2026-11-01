@@ -182,11 +182,14 @@
 
   /* ---------- Thèmes ---------- */
   function applyTheme(name) {
-    document.body.classList.remove('theme-desert', 'theme-nuit');
-    if (name === 'desert' || name === 'nuit') document.body.classList.add('theme-' + name);
-    try { localStorage.setItem('theme', name); } catch (e) {}
+    const root = document.documentElement, t = (name === 'rose' || name === 'vert') ? name : 'rouge';
+    root.classList.remove('theme-rose', 'theme-vert');
+    if (t !== 'rouge') root.classList.add('theme-' + t);
+    const m = document.querySelector('meta[name="theme-color"]');
+    if (m) m.content = { rouge: '#d4141c', rose: '#e0188a', vert: '#14a84a' }[t];
+    try { localStorage.setItem('theme', t); } catch (e) {}
   }
-  try { applyTheme(localStorage.getItem('theme') || 'colline'); } catch (e) {}
+  try { applyTheme(localStorage.getItem('theme') || 'rouge'); } catch (e) {}
   ctx.addEventListener('click', e => {
     const b = e.target.closest('button[data-theme]');
     if (b) applyTheme(b.dataset.theme);

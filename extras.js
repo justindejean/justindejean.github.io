@@ -70,8 +70,8 @@
       });
       g.globalAlpha = 1; g.textAlign = 'center'; g.fillStyle = '#fff'; g.font = 'bold ' + Math.max(24, Math.min(64, cv.width / 14)) + 'px Tahoma, sans-serif';
       g.fillText(name, cx, cy + Math.sin(t) * 10);
-      g.font = Math.max(14, cv.width / 60) + 'px Tahoma, sans-serif'; g.fillStyle = '#9ed0ff'; if (dispo) g.fillText(dispo, cx, cy + 42 + Math.sin(t) * 10);
-      g.fillStyle = '#7a8aa8'; g.font = '13px Tahoma, sans-serif'; g.fillText(L('Bouge la souris ou clique pour revenir', 'Move the mouse or click to return'), cx, cv.height - 36);
+      g.font = Math.max(14, cv.width / 60) + 'px Tahoma, sans-serif'; g.fillStyle = '#ffffff'; if (dispo) g.fillText(dispo, cx, cy + 42 + Math.sin(t) * 10);
+      g.fillStyle = '#a0a0a8'; g.font = '13px Tahoma, sans-serif'; g.fillText(L('Bouge la souris ou clique pour revenir', 'Move the mouse or click to return'), cx, cv.height - 36);
       raf = requestAnimationFrame(frame);
     };
     frame(); if (calm) cancelAnimationFrame(raf);

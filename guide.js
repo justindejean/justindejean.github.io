@@ -262,14 +262,34 @@
   document.addEventListener('click', e => { if (e.target.closest('[data-run]')) openRun(); });
 
   /* ---------- compagnon : yeux, clic, drag, sommeil, réactions ---------- */
-  let ptr = null;
+  /* yeux de Ghostface : le bas ne bouge jamais, seul le haut s'abaisse (souris en bas) ou se relève (souris en haut) */
+  let lastY = null, eyeH = 1, eyeT = 1, eyeRaf = 0;
+  const EYE = { c1: [[46, 32], [51, 26]], e1: [55.5, 24.7], c2: [[58, 24], [59.5, 25.5]] };
+  const chordY = x => 36 - (x - 46) * 8 / 13;
+  function eyeD(h, mir) {
+    const T = p => [mir ? 120 - p[0] : p[0], chordY(p[0]) - (chordY(p[0]) - p[1]) * h], F = p => [mir ? 120 - p[0] : p[0], p[1]];
+    const f = p => p[0].toFixed(2) + ' ' + p[1].toFixed(2);
+    return 'M' + f(F([46, 36])) + ' C' + f(T(EYE.c1[0])) + ' ' + f(T(EYE.c1[1])) + ' ' + f(T(EYE.e1)) +
+      ' C' + f(T(EYE.c2[0])) + ' ' + f(T(EYE.c2[1])) + ' ' + f(F([59, 28])) +
+      ' C' + f(F([58.5, 32])) + ' ' + f(F([57, 36])) + ' ' + f(F([53, 38.8])) +
+      ' C' + f(F([50, 40.5])) + ' ' + f(F([46.5, 40])) + ' ' + f(F([46, 36])) + ' Z';
+  }
+  function eyeStep() {
+    eyeRaf = 0; eyeH += (eyeT - eyeH) * .3; if (Math.abs(eyeT - eyeH) < .01) eyeH = eyeT;
+    pu.forEach((p, i) => p.setAttribute('d', eyeD(eyeH, i === 1)));
+    if (eyeH !== eyeT) eyeRaf = requestAnimationFrame(eyeStep);
+  }
+  function eyeTarget() {
+    if (bug.classList.contains('pose-think')) eyeT = 1.35;
+    else if (lastY == null) eyeT = 1;
+    else { const r = bug.getBoundingClientRect(), k = Math.max(-1, Math.min(1, (lastY - (r.top + r.height * .27)) / (innerHeight * .45))); eyeT = k >= 0 ? 1 - .82 * k : 1 - .3 * k; }
+    if (!eyeRaf) eyeRaf = requestAnimationFrame(eyeStep);
+  }
+  new MutationObserver(eyeTarget).observe(bug, { attributes: true, attributeFilter: ['class'] });
   addEventListener('pointermove', e => {
     rest();
-    if (ptr || bug.style.display === 'none') return;
-    ptr = requestAnimationFrame(() => {
-      ptr = null; const r = bug.getBoundingClientRect(), a = Math.atan2(e.clientY - (r.top + r.height * .5), e.clientX - (r.left + r.width * .5));
-      pu.forEach(p => { p.style.transform = 'translate(' + (Math.cos(a) * 3).toFixed(1) + 'px,' + (Math.sin(a) * 3).toFixed(1) + 'px)'; });
-    });
+    if (bug.style.display === 'none') return;
+    lastY = e.clientY; eyeTarget();
   }, { passive: true });
   let idleQ, idleSaid = false;
   function rest() {

@@ -15,7 +15,7 @@
     'Formation et compétences': 'Education and skills', 'Un projet en tête ?': 'Got a project in mind?',
     'Discuter avec Justin': 'Chat with Justin', 'Ma playlist Spotify': 'My Spotify playlist', 'Une pause ?': 'Need a break?',
     'Redémarrer': 'Restart', 'Arrêter': 'Shut down', 'Actualiser': 'Refresh', 'Nouveau ▸ Message pour Justin': 'New ▸ Message for Justin',
-    'Propriétés': 'Properties', 'Thème : Colline (bleu)': 'Theme: Hill (blue)', 'Thème : Désert (olive)': 'Theme: Desert (olive)', 'Thème : Nuit': 'Theme: Night',
+    'Propriétés': 'Properties', 'Thème : Rouge': 'Theme: Red', 'Thème : Rose': 'Theme: Pink', 'Thème : Vert': 'Theme: Green',
     '✉ Me contacter': '✉ Contact me', 'Me contacter': 'Contact me', 'Disponible pour un stage dès le 15 avril': 'Available for an internship from April 15',
     'Bienvenue !': 'Welcome!', 'Mes travaux sont sur le bureau. Tu peux aussi les découvrir en te baladant dans la galerie.': 'My work is right on the desktop. You can also discover it by wandering through the gallery.',
     'Explorer la galerie': 'Explore the gallery', 'Portfolio de': 'Portfolio of', 'Portfolio Windows XP Edition': 'Windows XP Edition Portfolio',
