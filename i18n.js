@@ -26,7 +26,10 @@
     'La corbeille est vide. Rien à supprimer ici !': 'The recycle bin is empty. Nothing to delete here!',
     'À propos de Windows XP': 'About Windows XP', 'Inspiré de l\'ambiance rétro et développé en Vanilla JS.': 'Inspired by the retro look and built with vanilla JS.',
     'Conçu par Justin Dejean — Étudiant en BUT MMI à l\'Université de Caen Normandie.': 'Designed by Justin Dejean — BUT MMI student at the University of Caen Normandie.',
-    'Sprite du personnage : Universal LPC Spritesheet Character Generator (détails dans jeu/CREDITS.md).': 'Character sprite: Universal LPC Spritesheet Character Generator (details in jeu/CREDITS.md).',
+    '© 2026 Justin Dejean. Tous droits réservés sur mes créations (code, textes, illustrations, chartes, vidéos), sauf éléments tiers cités ci-dessous.': '© 2026 Justin Dejean. All rights reserved on my own work (code, texts, illustrations, brand guidelines, videos), except for the third-party elements credited below.',
+    'Crédits': 'Credits',
+    'Sprite du personnage : Universal LPC Spritesheet Character Generator, d\'après les assets du Liberated Pixel Cup. Licences : CC-BY-SA 3.0, OGA-BY 3.0 et GPL 3.0 selon les pièces.': 'Character sprite: Universal LPC Spritesheet Character Generator, based on Liberated Pixel Cup assets. Licenses: CC-BY-SA 3.0, OGA-BY 3.0 and GPL 3.0 depending on the part.',
+    'Auteurs et licences en détail': 'Full list of authors and licenses',
     // --- navigateur ---
     'Navigateur Internet': 'Internet Browser', 'Internet': 'Internet', 'Naviguer sur le web': 'Browse the web',
     'Suivante ▶': 'Forward ▶', '🔄 Actualiser': '🔄 Refresh', '🏠 Accueil': '🏠 Home', 'Atteindre': 'Go', 'Terminé': 'Done', 'Ouverture de la page…': 'Opening page…',
