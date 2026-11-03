@@ -1,0 +1,31 @@
+© 2026 Justin Dejean. Tous droits réservés.
+
+Les créations originales de ce dépôt (code source, textes, illustrations,
+chartes graphiques, vidéos, images de projets, mascotte, design du site) sont
+la propriété de Justin Dejean. Aucune copie, reproduction, modification ni
+réutilisation, en tout ou partie, n'est autorisée sans son accord écrit préalable.
+
+Ce portfolio peut être consulté librement en ligne. Pour toute demande
+d'autorisation : dejeanjustin@icloud.com
+
+Éléments tiers
+--------------
+Certains éléments ne m'appartiennent pas et restent soumis à leur licence
+d'origine, qui prévaut sur la mention ci-dessus :
+
+- Sprite du personnage du jeu (jeu/assets/character/) : Liberated Pixel Cup
+  et Universal LPC Spritesheet Character Generator, licences OGA-BY 3.0,
+  CC-BY-SA 3.0 et GPL 2.0/3.0 selon les pièces.
+  Auteurs et détail : jeu/CREDITS.md et jeu/credits.csv.
+- Icônes de dossiers Windows XP (windows-xp-folder/) : domaine public,
+  voir windows-xp-folder/readme.txt.
+- Polices : Press Start 2P via Google Fonts (SIL Open Font License).
+- Autres éléments du jeu (chat, décor intérieur) : voir jeu/CREDITS.md.
+
+English summary
+---------------
+Copyright (c) 2026 Justin Dejean. All rights reserved. The original work in
+this repository (code, text, illustrations, brand guidelines, videos, project
+images, mascot, site design) may not be copied, modified or reused without
+prior written permission. Third-party assets keep their original licenses, as
+listed above and in jeu/CREDITS.md.
