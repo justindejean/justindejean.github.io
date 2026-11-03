@@ -69,3 +69,15 @@ Page : https://trislin.itch.io/pixel-lands-interiors
 Licence : utilisation libre (commercial ou non), redistribution/revente des assets interdite,
 crédit apprécié mais non obligatoire.
 
+## Licences et réutilisation
+
+Les fichiers du dossier `jeu/assets/character/` restent sous leurs licences d'origine
+(OGA-BY 3.0, CC-BY-SA 3.0, GPL 2.0/3.0 selon les pièces, voir `credits.csv`).
+Ils ne sont **pas** couverts par la mention « tous droits réservés » du reste du site (voir `LICENSE`).
+Toute modification de ces sprites doit être redistribuée sous la même licence (CC-BY-SA / GPL)
+et créditer les auteurs ci-dessus.
+
+
+- `jeu/assets/cat/idle.png` : [auteur, licence, lien]
+- `jeu/assets/interior/cozy.png` : [auteur, licence, lien]
+- `jeu/assets/interior2/pixellands.png` : [auteur, licence, lien]
