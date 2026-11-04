@@ -3,7 +3,7 @@
    ========================================================= */
 const SITE = {
   nom: 'Justin Dejean',
-  mascotte: 'Pixel',                 // nom de ta mascotte : change-le ici, il se met à jour partout (accueil, Messenger, menu Démarrer, 404)
+  mascotte: 'Pashifikku',               // nom de ta mascotte : change-le ici, il se met à jour partout (accueil, Messenger, menu Démarrer, 404)
   email: 'dejeanjustin@icloud.com',   // adresse affichée et utilisée par le formulaire (secours mailto)
   formspree: '',                        // ex. 'xyzabcde' : l'identifiant de ton formulaire sur formspree.io (laisse vide = ouvre l'appli mail)
   cv: '',                               // ex. 'CV-Justin-Dejean.pdf' : dépose le PDF à côté de index.html, un bouton « Télécharger » apparaît
