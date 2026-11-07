@@ -1,50 +1,144 @@
 /* =========================================================
-   PROJETS — explorateur XP : les dossiers (CATEGORIES) contiennent des fichiers (PROJETS).
-   Pour ajouter un fichier : dépose-le dans projets/<dossier>/ puis ajoute une ligne dans PROJETS.
-   - cat         : id du dossier (voir CATEGORIES)
-   - id, titre   : identifiant unique et nom affiché
-   - type, src   : 'image' | 'video' | 'pdf' et chemin du fichier
-   - image       : miniature (pour une vidéo ou un PDF : image d'aperçu)
-   - description : texte à droite du nom ('' = rien). outils : pastilles de logiciels
-   - lien        : (facultatif) bouton « Voir le projet »
-   - couleur / icone : apparence si pas d'image
+   PROJETS — explorateur XP : les DOSSIERS (CATEGORIES) contiennent des FICHIERS (PROJETS).
+
+   ➜ AUTOMATIQUE (rien à écrire) : crée un dossier dans projets/ (ex. projets/blender/), mets-y
+     tes images / vidéos / PDF, envoie sur GitHub : le dossier et ses fichiers apparaissent tout seuls.
+     Le titre vient du nom du fichier. Pour régler titre / description / logiciels, ajoute dans le
+     dossier un fichier  dossier.json  (voir projets/LISEZMOI.txt). Un dossier « blender » reçoit
+     d'office la pastille Blender.
+
+   ➜ (OPTIONNEL) DÉCLARER UN FICHIER À LA MAIN — AJOUTER UNE LIGNE DANS UN DOSSIER EXISTANT
+     1. Dépose le fichier dans  projets/<dossier>/   (ex. projets/avatar/mon-affiche.jpg)
+     2. Ajoute UNE ligne dans la liste « FICHIERS » plus bas :
+          fichier('avatar', 'mon-affiche.jpg', 'Mon affiche', 'Illustrator', 'Ma description.'),
+
+   ➜ CRÉER UN NOUVEAU DOSSIER
+     1. Crée le dossier  projets/<nom-du-dossier>/  et mets-y tes fichiers
+     2. Ajoute tes lignes fichier('<nom-du-dossier>', ...) : le dossier apparaît tout seul
+        (son nom affiché = le nom du dossier avec une majuscule). Pour choisir le nom affiché,
+        la couleur ou un dossier différent de l'identifiant, ajoute une ligne dans CATEGORIES.
+
+   ➜ La fonction  fichier(dossier, nomDuFichier, titre, applications, description, options)
+     - dossier       : identifiant du dossier (voir CATEGORIES, ou nom du dossier dans projets/)
+     - nomDuFichier  : le fichier dans projets/<dossier>/ — le type est deviné par l'extension :
+                       jpg png gif webp svg = image · mp4 webm = vidéo · pdf = PDF
+     - titre         : nom affiché sous l'icône
+     - applications  : logiciels utilisés, ex. 'Illustrator'  ou  'Illustrator, InDesign'  ('' = aucun)
+     - description   : texte à droite du nom ('' = rien)
+     - options (facultatif) : { image, pages, lien, id, couleur, icone }
+         image  : miniature d'une vidéo ou d'un PDF (défaut : <nomDuFichier>.jpg dans le même dossier)
+         pages  : PDF affiché page par page → nombre de pages (images p-01.jpg, p-02.jpg… dans
+                  projets/<dossier>/<nomDuFichier sans extension>/) ou { dir: '...', n: 24 }
+         lien   : bouton « Voir le projet »
    ========================================================= */
+
+/* Dossiers. id = identifiant utilisé dans fichier(...) · dossier = nom réel dans projets/ (défaut : id)
+   Facultatif pour un nouveau dossier (créé automatiquement), utile pour le nom affiché et la couleur. */
 const CATEGORIES = [
   { id: 'avatar', titre: 'Avatar',           couleur: '#f2c14e' },
-  { id: 'charte', titre: 'Charte Graphique', couleur: '#e8315a' },
-  { id: 'robot',  titre: 'Robot collectif',  couleur: '#5f8c8c' }
+  { id: 'charte', titre: 'Charte Graphique', couleur: '#e8315a', dossier: 'charte-graphique' },
+  { id: 'robot',  titre: 'Robot collectif',  couleur: '#5f8c8c', dossier: 'robot-collectif' }
 ];
 
-/* Chaque fichier = un élément du dossier `cat`. type : 'image' | 'video' | 'pdf' */
-const PROJETS = [
+/* FICHIERS — une ligne = un fichier. L'ordre ici = l'ordre dans le dossier. */
+const PROJETS = [];
+(function () {
+  const EXT = { jpg: 'image', jpeg: 'image', png: 'image', gif: 'image', webp: 'image', svg: 'image',
+                mp4: 'video', webm: 'video', pdf: 'pdf' };
+  const slug = s => String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+  function fichier(dossier, nom, titre, applications, description, o) {
+    o = o || {};
+    let cat = CATEGORIES.find(c => c.id === dossier);
+    if (!cat) {                                              // dossier non déclaré : on le crée automatiquement
+      const t = String(dossier).replace(/[-_]+/g, ' ');
+      cat = { id: dossier, titre: t.charAt(0).toUpperCase() + t.slice(1), couleur: '#5f8c8c' };
+      CATEGORIES.push(cat);
+    }
+    const dir = 'projets/' + (cat.dossier || cat.id) + '/';
+    const base = nom.replace(/\.[^.]+$/, '');
+    const ext = (nom.split('.').pop() || '').toLowerCase();
+    const type = EXT[ext] || 'image';
+    const p = {
+      id: o.id || slug(base), cat: cat.id, titre: titre || base, type: type, src: dir + nom,
+      image: o.image || (type === 'image' ? dir + nom : dir + base + '.jpg'),
+      couleur: o.couleur || cat.couleur || '#5f8c8c',
+      icone: o.icone || (type === 'video' ? '▶' : '✎'),
+      outils: Array.isArray(applications) ? applications : String(applications || '').split(',').map(s => s.trim()).filter(Boolean),
+      description: description || ''
+    };
+    if (o.pages) p.pages = typeof o.pages === 'number' ? { dir: dir + base + '/p-', n: o.pages } : o.pages;
+    if (o.lien) p.lien = o.lien;
+    PROJETS.push(p);
+  }
+
+  /* ================= TES FICHIERS (ajoute tes lignes ici) ================= */
+
   /* ---- Avatar ---- */
-  { id: 'wallpaper', cat: 'avatar', titre: 'Wallpaper de moi', type: 'image', src: 'projets/avatar/wallpaper.jpg',
-    image: 'projets/avatar/wallpaper.jpg', couleur: '#f2c14e', icone: '✎', outils: ['Illustrator'],
-    description: 'Illustration vectorielle de mon avatar dans les rues de Caen.' },
-  { id: 'art-deco', cat: 'avatar', titre: 'Art Déco', type: 'image', src: 'projets/avatar/art-deco.jpg',
-    image: 'projets/avatar/art-deco.jpg', couleur: '#d12b1f', icone: '✎', outils: ['Illustrator'],
-    description: 'Affiche de style Art déco.' },
+  fichier('avatar', 'wallpaper.jpg', 'Wallpaper de moi', 'Illustrator',
+    'Illustration vectorielle de mon avatar dans les rues de Caen.');
+  fichier('avatar', 'art-deco.jpg', 'Art Déco', 'Illustrator',
+    'Affiche de style Art déco.', { couleur: '#d12b1f' });
+
   /* ---- Charte Graphique ---- */
-  { id: 'charte-mmi', cat: 'charte', titre: 'Charte MMI Saint-Lô', type: 'pdf', src: 'projets/charte-graphique/charte-mmi-saint-lo.pdf',
-    image: 'projets/charte-graphique/charte-mmi-saint-lo.jpg', pages: { dir: 'projets/charte-graphique/mmi/p-', n: 24 }, couleur: '#1b2036', icone: '✎', outils: ['Illustrator', 'InDesign'],
-    description: 'Charte graphique vectorisée du département MMI de Saint-Lô (PDF, 24 pages).' },
-  { id: 'charte-mediarte', cat: 'charte', titre: 'Charte Médiarte', type: 'pdf', src: 'projets/charte-graphique/charte-mediarte.pdf',
-    image: 'projets/charte-graphique/charte-mediarte.jpg', pages: { dir: 'projets/charte-graphique/mediarte/p-', n: 28 }, couleur: '#e8315a', icone: '✎', outils: ['Illustrator', 'InDesign'],
-    description: 'Charte graphique Médiarte (PDF, 28 pages).' },
+  fichier('charte', 'charte-mmi-saint-lo.pdf', 'Charte MMI Saint-Lô', 'Illustrator, InDesign',
+    'Charte graphique vectorisée du département MMI de Saint-Lô (PDF, 24 pages).',
+    { id: 'charte-mmi', pages: { dir: 'projets/charte-graphique/mmi/p-', n: 24 }, couleur: '#1b2036' });
+  fichier('charte', 'charte-mediarte.pdf', 'Charte Médiarte', 'Illustrator, InDesign',
+    'Charte graphique Médiarte (PDF, 28 pages).',
+    { id: 'charte-mediarte', pages: { dir: 'projets/charte-graphique/mediarte/p-', n: 28 } });
+
   /* ---- Robot collectif ---- */
-  { id: 'robot-video', cat: 'robot', titre: 'Robot Collectif (vidéo)', type: 'video', src: 'projets/robot-collectif/robot-collectif.mp4',
-    image: 'projets/robot-collectif/robot-collectif-poster.jpg', couleur: '#5f8c8c', icone: '▶', outils: ['Premiere Pro'],
-    description: 'Vidéo animée du projet collectif sur les robots domestiques.' },
-  { id: 'robot-illustrator', cat: 'robot', titre: 'Robot Collectif Illustrator', type: 'image', src: 'projets/robot-collectif/robot-illustrator.jpg',
-    image: 'projets/robot-collectif/robot-illustrator.jpg', couleur: '#5f8c8c', icone: '✎', outils: ['Illustrator'],
-    description: 'Illustrations du robot réalisées pour la vidéo.' },
-  { id: 'robot-articles', cat: 'robot', titre: 'Articles Néo', type: 'image', src: 'projets/robot-collectif/articles-neo.jpg',
-    image: 'projets/robot-collectif/articles-neo.jpg', couleur: '#5f8c8c', icone: '✎',
-    description: 'Page d\'article sur le robot Néo.' },
-  { id: 'robot-coin-ia', cat: 'robot', titre: 'Coin IA Néo', type: 'image', src: 'projets/robot-collectif/coin-ia-neo.jpg',
-    image: 'projets/robot-collectif/coin-ia-neo.jpg', couleur: '#5f8c8c', icone: '✎',
-    description: 'Page « Coin IA » sur le robot Néo.' }
-];
+  fichier('robot', 'robot-collectif.mp4', 'Robot Collectif (vidéo)', 'Premiere Pro',
+    'Vidéo animée du projet collectif sur les robots domestiques.',
+    { id: 'robot-video', image: 'projets/robot-collectif/robot-collectif-poster.jpg' });
+  fichier('robot', 'robot-illustrator.jpg', 'Robot Collectif Illustrator', 'Illustrator',
+    'Illustrations du robot réalisées pour la vidéo.', { id: 'robot-illustrator' });
+  fichier('robot', 'articles-neo.jpg', 'Articles Néo', '',
+    'Page d\'article sur le robot Néo.', { id: 'robot-articles' });
+  fichier('robot', 'coin-ia-neo.jpg', 'Coin IA Néo', '',
+    'Page « Coin IA » sur le robot Néo.', { id: 'robot-coin-ia' });
+
+  /* ---- Exemple de NOUVEAU dossier (décommente pour tester) ----
+  fichier('web', 'mon-site.jpg', 'Mon site', 'Figma, VS Code', 'Maquette et intégration.', { lien: 'https://exemple.fr' });
+  */
+})();
+
+/* ---- DOSSIERS AUTOMATIQUES : tout dossier créé dans projets/ apparaît tout seul ----
+   1) au chargement : liste de secours projets-auto.js (générée par GitHub à chaque envoi)
+   2) ensuite : lecture en direct du dépôt GitHub (voir tout en bas) → affichage immédiat, sans attendre.
+   Les fichiers déjà déclarés avec fichier(...) plus haut ne sont pas ajoutés deux fois. */
+window.fusionnerProjets = function (AUTO, remplacer) {
+  const slug = s => String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  const COULEURS = ['#5f8c8c', '#8a5a3b', '#4e9e56', '#3f6fd8', '#d94f5c', '#f2c14e'];
+  const deja = new Set(PROJETS.map(p => p.key || p.src));
+  const vus = new Set();
+  AUTO.forEach((d, i) => {
+    let cat = CATEGORIES.find(c => (c.dossier || c.id) === d.dossier);
+    if (!cat) {
+      cat = { id: d.dossier, titre: d.titre, couleur: d.couleur || COULEURS[i % COULEURS.length], dossier: d.dossier, auto: true };
+      CATEGORIES.push(cat);
+    }
+    const dir = 'projets/' + d.dossier + '/';
+    d.fichiers.forEach(f => {
+      const key = dir + f.nom;
+      vus.add(key);
+      if (deja.has(key)) return;
+      const b = f.nom.replace(/\.[^.]+$/, '');
+      const p = { id: slug(d.dossier + '-' + b), key: key, auto: true, cat: cat.id, titre: f.titre, type: f.type, src: encodeURI(key),
+        image: f.image ? encodeURI(dir + f.image) : (f.type === 'image' ? encodeURI(key) : ''),
+        couleur: cat.couleur || '#5f8c8c', icone: f.type === 'video' ? '▶' : f.type === 'pdf' ? '📄' : '✎',
+        outils: f.outils || [], description: f.description || '' };
+      if (f.pages) p.pages = { dir: encodeURI(dir + b) + '/p-', n: f.pages };
+      PROJETS.push(p);
+    });
+  });
+  if (remplacer) {                                           // lecture en direct : on retire ce qui n'existe plus
+    for (let k = PROJETS.length - 1; k >= 0; k--) if (PROJETS[k].auto && !vus.has(PROJETS[k].key)) PROJETS.splice(k, 1);
+    for (let k = CATEGORIES.length - 1; k >= 0; k--) if (CATEGORIES[k].auto && !PROJETS.some(p => p.cat === CATEGORIES[k].id)) CATEGORIES.splice(k, 1);
+  }
+};
+window.fusionnerProjets(window.PROJETS_AUTO || []);
 
 (function () {
   'use strict';
@@ -147,7 +241,7 @@ const PROJETS = [
       const zoomBtn = '<button type="button" class="zoom-open" title="Agrandir / zoomer">🔍 Agrandir</button>';
       if (m.type === 'video') {
         img.innerHTML = '<video controls preload="metadata" playsinline' + (m.poster ? ' poster="' + esc(m.poster) + '"' : '') +
-          ' src="' + esc(m.src) + '"></video>';
+          ' src="' + esc(m.src) + (m.poster ? '' : '#t=0.1') + '"></video>';
         img.onclick = null;
       } else if (m.type === 'pdf' && m.pages) {
         const srcs = Array.from({ length: m.pages.n }, (_, k) => pageSrc(m.pages, k));
@@ -155,6 +249,10 @@ const PROJETS = [
           '<img class="zoomable" loading="lazy" data-k="' + k + '" src="' + esc(u) + '" alt="Page ' + (k + 1) + '">').join('') + '</div>' +
           '<a class="pdf-open" href="' + esc(m.src) + '" target="_blank" rel="noopener" download>⬇ Télécharger le PDF</a>';
         img.onclick = e => { const t = e.target.closest('img[data-k]'); if (t) openLightbox(srcs, +t.dataset.k, (m.label || p.titre)); };
+      } else if (m.type === 'pdf') {
+        img.innerHTML = (m.poster ? '<img src="' + esc(m.poster) + '" alt="">' : '<span>📄</span>') +
+          '<a class="pdf-open" href="' + esc(m.src) + '" target="_blank" rel="noopener">⬇ Ouvrir le PDF</a>';
+        img.onclick = null;
       } else {
         img.innerHTML = '<img class="zoomable" src="' + esc(m.src) + '" alt="' + esc(m.label || p.titre) + '">' + zoomBtn;
         img.onclick = e => { if (e.target.closest('.zoom-open, img.zoomable')) openLightbox([m.src], 0, m.label || p.titre); };
@@ -217,6 +315,7 @@ const PROJETS = [
         '<button class="file" data-projet="' + esc(p.id) + '" data-info="Fiche projet">' +
           '<span class="file-icon thumb">' +
             (p.image ? '<img src="' + esc(p.image) + '" alt="">'
+                     : p.type === 'video' ? '<video muted playsinline preload="metadata" src="' + esc(p.src) + '#t=0.1" style="width:100%;height:100%;object-fit:cover;pointer-events:none"></video>'
                      : '<span style="background:' + esc(p.couleur) + '">' + esc(p.icone) + '</span>') +
           '</span>' +
           '<span class="file-name">' + esc(p.titre) + '</span></button>'
@@ -252,6 +351,7 @@ const PROJETS = [
     });
   }
 
+  window.rafraichirProjets = function () { if (grid) render(); };
   window.openProjectFolder = function (catId) { if (grid) goTo(catId); window.openWindow('window-projets'); };
 
   // clic sur un fichier du dossier, ou sur un élément de la liste vidéos
@@ -261,4 +361,84 @@ const PROJETS = [
     e.preventDefault();
     openProject(t.dataset.projet);
   });
+})();
+
+/* ---- LECTURE EN DIRECT DU DÉPÔT : les dossiers/fichiers ajoutés dans projets/ s'affichent sans rien faire d'autre ----
+   Fonctionne sur <pseudo>.github.io (le dépôt s'appelle <pseudo>.github.io). Un seul appel à l'API GitHub, mis en cache 1 min.
+   Si l'API est indisponible, la liste de secours projets-auto.js reste affichée. */
+(function () {
+  'use strict';
+  const host = location.hostname;
+  if (!/\.github\.io$/.test(host)) return;
+  const owner = host.split('.')[0], repo = host;
+  const TYPES = { jpg: 'image', jpeg: 'image', png: 'image', gif: 'image', webp: 'image', svg: 'image', mp4: 'video', webm: 'video', pdf: 'pdf' };
+  const LOGICIELS = { blender: 'Blender', illustrator: 'Illustrator', photoshop: 'Photoshop', indesign: 'InDesign',
+    premiere: 'Premiere Pro', 'premiere-pro': 'Premiere Pro', 'after-effects': 'After Effects', figma: 'Figma',
+    lightroom: 'Lightroom', 'davinci-resolve': 'DaVinci Resolve', 'cinema-4d': 'Cinema 4D', unity: 'Unity' };
+  const joli = s => { s = s.replace(/[-_]+/g, ' ').trim(); return s.charAt(0).toUpperCase() + s.slice(1); };
+  const liste = v => Array.isArray(v) ? v : String(v || '').split(',').map(x => x.trim()).filter(Boolean);
+  const nat = (a, b) => a.localeCompare(b, 'fr', { numeric: true });
+  const base = f => f.replace(/\.[^.]+$/, '');
+  const ext = f => f.split('.').pop().toLowerCase();
+
+  async function lireArbre() {
+    const CLE = 'projets-arbre-v1';
+    try { const c = JSON.parse(localStorage.getItem(CLE) || 'null'); if (c && Date.now() - c.t < 60000) return c.chemins; } catch (e) {}
+    for (const br of ['main', 'master']) {
+      try {
+        const r = await fetch('https://api.github.com/repos/' + owner + '/' + repo + '/git/trees/' + br + '?recursive=1');
+        if (!r.ok) continue;
+        const j = await r.json();
+        const chemins = (j.tree || []).filter(t => t.type === 'blob' && t.path.indexOf('projets/') === 0).map(t => t.path);
+        try { localStorage.setItem(CLE, JSON.stringify({ t: Date.now(), chemins: chemins })); } catch (e) {}
+        return chemins;
+      } catch (e) {}
+    }
+    return null;
+  }
+
+  async function construire(chemins) {
+    const dossiers = {};
+    chemins.forEach(c => {
+      const parts = c.split('/');                                // projets / dossier / fichier  (ou / sous-dossier / p-01.jpg)
+      if (parts.length < 3) return;
+      (dossiers[parts[1]] = dossiers[parts[1]] || []).push(parts.slice(2));
+    });
+    const noms = Object.keys(dossiers).sort(nat);
+    const metas = {};
+    await Promise.all(noms.filter(n => dossiers[n].some(x => x.length === 1 && x[0] === 'dossier.json')).map(async n => {
+      try { const r = await fetch('projets/' + encodeURI(n) + '/dossier.json', { cache: 'no-store' }); if (r.ok) metas[n] = await r.json(); } catch (e) {}
+    }));
+    return noms.map(nom => {
+      const meta = metas[nom] || {};
+      const fichiers = dossiers[nom].filter(x => x.length === 1).map(x => x[0]).sort(nat);
+      const gros = new Set(fichiers.filter(f => ['pdf', 'video'].includes(TYPES[ext(f)])).map(base));
+      const outilsDossier = liste(meta.outils).length ? liste(meta.outils) : liste(LOGICIELS[nom.toLowerCase()]);
+      const items = [];
+      fichiers.forEach(f => {
+        const type = TYPES[ext(f)]; if (!type) return;
+        const b = base(f);
+        if (type === 'image' && (gros.has(b) || (b.endsWith('-poster') && gros.has(b.slice(0, -7))))) return;
+        const m = (meta.fichiers && meta.fichiers[f]) || {};
+        const it = { nom: f, titre: m.titre || joli(b), type: type,
+          outils: m.outils !== undefined ? liste(m.outils) : outilsDossier, description: m.description || '' };
+        if (type !== 'image') {
+          const th = ['.jpg', '.png', '-poster.jpg', '-poster.png'].map(x => b + x).find(x => fichiers.includes(x));
+          if (th) it.image = th;
+        }
+        if (type === 'pdf') {
+          const n = dossiers[nom].filter(x => x.length === 2 && x[0] === b && /^p-\d+\.jpg$/i.test(x[1])).length;
+          if (n) it.pages = n;
+        }
+        items.push(it);
+      });
+      return { dossier: nom, titre: meta.titre || joli(nom), couleur: meta.couleur || '', fichiers: items };
+    }).filter(d => d.fichiers.length);
+  }
+
+  lireArbre().then(async chemins => {
+    if (!chemins) return;
+    window.fusionnerProjets(await construire(chemins), true);
+    if (window.rafraichirProjets) window.rafraichirProjets();
+  }).catch(() => {});
 })();
