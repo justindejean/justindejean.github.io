@@ -35,9 +35,12 @@
 /* Dossiers. id = identifiant utilisé dans fichier(...) · dossier = nom réel dans projets/ (défaut : id)
    Facultatif pour un nouveau dossier (créé automatiquement), utile pour le nom affiché et la couleur. */
 const CATEGORIES = [
-  { id: 'avatar', titre: 'Avatar',           couleur: '#f2c14e' },
-  { id: 'charte', titre: 'Charte Graphique', couleur: '#e8315a', dossier: 'charte-graphique' },
-  { id: 'robot',  titre: 'Robot collectif',  couleur: '#5f8c8c', dossier: 'robot-collectif' }
+  { id: 'avatar', titre: 'Affiches',           couleur: '#f2c14e' },                              // dossier projets/avatar/
+  { id: 'charte', titre: 'Chartes graphiques', couleur: '#e8315a', dossier: 'charte-graphique' },
+  { id: 'robot',  titre: 'Robot collectif',    couleur: '#5f8c8c', dossier: 'robot-collectif' },
+  { id: 'blender', titre: '3D',                couleur: '#e87d0d' }                               // dossier projets/blender/
+  /* Idées d'autres dossiers (crée-les simplement dans projets/ ou ajoute une ligne ici) :
+     Logos · Illustrations · Vidéo & motion · Web & maquettes · Photo · Réseaux sociaux */
 ];
 
 /* FICHIERS — une ligne = un fichier. L'ordre ici = l'ordre dans le dossier. */
@@ -364,13 +367,11 @@ window.fusionnerProjets(window.PROJETS_AUTO || []);
 })();
 
 /* ---- LECTURE EN DIRECT DU DÉPÔT : les dossiers/fichiers ajoutés dans projets/ s'affichent sans rien faire d'autre ----
-   Fonctionne sur <pseudo>.github.io (le dépôt s'appelle <pseudo>.github.io). Un seul appel à l'API GitHub, mis en cache 1 min.
+   Dépôt lu : justindejean/justindejean.github.io (modifiable ci-dessous). Un seul appel à l'API GitHub, mis en cache 1 min.
    Si l'API est indisponible, la liste de secours projets-auto.js reste affichée. */
 (function () {
   'use strict';
-  const host = location.hostname;
-  if (!/\.github\.io$/.test(host)) return;
-  const owner = host.split('.')[0], repo = host;
+  const owner = 'justindejean', repo = 'justindejean.github.io';   // ton dépôt GitHub (fonctionne aussi hors github.io)
   const TYPES = { jpg: 'image', jpeg: 'image', png: 'image', gif: 'image', webp: 'image', svg: 'image', mp4: 'video', webm: 'video', pdf: 'pdf' };
   const LOGICIELS = { blender: 'Blender', illustrator: 'Illustrator', photoshop: 'Photoshop', indesign: 'InDesign',
     premiere: 'Premiere Pro', 'premiere-pro': 'Premiere Pro', 'after-effects': 'After Effects', figma: 'Figma',
@@ -387,7 +388,7 @@ window.fusionnerProjets(window.PROJETS_AUTO || []);
     for (const br of ['main', 'master']) {
       try {
         const r = await fetch('https://api.github.com/repos/' + owner + '/' + repo + '/git/trees/' + br + '?recursive=1');
-        if (!r.ok) continue;
+        if (!r.ok) { console.warn('[projets] API GitHub : erreur ' + r.status + ' (' + br + ')'); continue; }
         const j = await r.json();
         const chemins = (j.tree || []).filter(t => t.type === 'blob' && t.path.indexOf('projets/') === 0).map(t => t.path);
         try { localStorage.setItem(CLE, JSON.stringify({ t: Date.now(), chemins: chemins })); } catch (e) {}
@@ -437,8 +438,9 @@ window.fusionnerProjets(window.PROJETS_AUTO || []);
   }
 
   lireArbre().then(async chemins => {
-    if (!chemins) return;
+    if (!chemins) { console.warn('[projets] lecture en direct impossible : liste de secours utilisée'); return; }
     window.fusionnerProjets(await construire(chemins), true);
+    console.info('[projets] lecture en direct OK : ' + chemins.length + ' fichiers dans projets/');
     if (window.rafraichirProjets) window.rafraichirProjets();
   }).catch(() => {});
 })();
