@@ -425,25 +425,18 @@ button { font: inherit; }
   width: 320px;
 }
 
-.xp-logo-container {
-  display: grid;
-  grid-template-columns: repeat(2, 28px);
-  gap: 4px;
-  justify-content: center;
-  margin-bottom: 24px;
+.xp-logo-img {
+  display: block;
+  height: 90px;
+  width: auto;
+  margin: 0 auto 24px;
 }
 
-.xp-square {
-  width: 28px;
-  height: 28px;
-  border-radius: 4px;
-  box-shadow: 0 0 10px rgba(255,255,255,0.4);
+.start-logo-img {
+  height: 18px;
+  width: auto;
+  margin-right: 4px;
 }
-
-.xp-square.red { background: #fff; }
-.xp-square.green { background: #fff; }
-.xp-square.blue { background: #fff; }
-.xp-square.yellow { background: #fff; }
 
 .xp-boot-box h1 {
   font-size: 16px;
