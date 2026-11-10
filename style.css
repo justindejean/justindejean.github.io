@@ -429,12 +429,14 @@ button { font: inherit; }
   display: block;
   height: 90px;
   width: auto;
+  object-fit: contain;
   margin: 0 auto 24px;
 }
 
 .start-logo-img {
   height: 18px;
   width: auto;
+  object-fit: contain;
   margin-right: 4px;
 }
 
