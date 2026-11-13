@@ -4,7 +4,7 @@
 const SITE = {
   nom: 'Justin Dejean',
   mascotte: 'Pashifikku',               // nom de ta mascotte : change-le ici, il se met à jour partout (accueil, Messenger, menu Démarrer, 404)
-  email: 'dejeanjustin@icloud.com',   // adresse affichée et utilisée par le formulaire (secours mailto)
+  email: 'contact@justindejean.fr',   // adresse affichée et utilisée par le formulaire (secours mailto)
   formspree: '',                        // ex. 'xyzabcde' : l'identifiant de ton formulaire sur formspree.io (laisse vide = ouvre l'appli mail)
   cv: '',                               // ex. 'CV-Justin-Dejean.pdf' : dépose le PDF à côté de index.html, un bouton « Télécharger » apparaît
   spotify: '1sNe4yPF5y1HYkzMFbsUKF',    // identifiant de ta playlist Spotify (publique), vu dans le lien de partage
@@ -14,8 +14,8 @@ const SITE = {
     // { titre: 'LinkedIn', url: 'https://www.linkedin.com/in/ton-profil' },
     // { titre: 'Instagram', url: 'https://www.instagram.com/ton-compte' }
   ],
-  dispo: 'Disponible pour un stage dès le 15 avril',   // texte du badge dans la barre des tâches ('' pour le masquer)
-  dispo_en: 'Available for an internship from April 15',
+  dispo: 'Disponible pour un stage dès le 12 avril',   // texte du badge dans la barre des tâches ('' pour le masquer)
+  dispo_en: 'Available for an internship from April 12',
   plausible: '',                        // ex. 'justindejean.com' : statistiques sans cookies sur plausible.io (laisse vide = aucune statistique)
   // Commentaires de l'assistant à la 1re ouverture de chaque fenêtre : [français, anglais]. Écris-les avec ta voix.
   guideNotes: {
