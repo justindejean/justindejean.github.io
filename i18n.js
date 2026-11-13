@@ -16,7 +16,7 @@
     'Discuter avec Justin': 'Chat with Justin', 'Ma playlist Spotify': 'My Spotify playlist', 'Une pause ?': 'Need a break?',
     'Redémarrer': 'Restart', 'Arrêter': 'Shut down', 'Actualiser': 'Refresh', 'Nouveau ▸ Message pour Justin': 'New ▸ Message for Justin',
     'Propriétés': 'Properties', 'Thème : Rouge': 'Theme: Red', 'Thème : Rose': 'Theme: Pink', 'Thème : Vert': 'Theme: Green',
-    '✉ Me contacter': '✉ Contact me', 'Me contacter': 'Contact me', 'Disponible pour un stage dès le 15 avril': 'Available for an internship from April 15',
+    '✉ Me contacter': '✉ Contact me', 'Me contacter': 'Contact me', 'Disponible pour un stage dès le 12 avril': 'Available for an internship from April 12',
     'Bienvenue !': 'Welcome!', 'Mes travaux sont sur le bureau. Tu peux aussi les découvrir en te baladant dans la galerie.': 'My work is right on the desktop. You can also discover it by wandering through the gallery.',
     'Explorer la galerie': 'Explore the gallery', 'Portfolio de': 'Portfolio of', 'Portfolio Windows XP Edition': 'Windows XP Edition Portfolio',
     '@Menu Démarrer': 'Start menu', '@Réduire': 'Minimize', '@Agrandir': 'Maximize', '@Fermer': 'Close', '@Changer de langue': 'Change language',
@@ -59,8 +59,8 @@
     'Ton application mail s\'ouvre avec le message prêt à envoyer.': 'Your mail app is opening with the message ready to send.',
     // --- CV ---
     'Justin DEJEAN': 'Justin DEJEAN', 'Recherche de stage — audiovisuel & infographie': 'Looking for an internship — audiovisual & graphic design',
-    'Étudiant en BUT MMI, je cherche un stage de 8 à 10 semaines à partir du 15 avril. À l\'aise sur la suite Adobe (Illustrator, Photoshop, InDesign, Premiere Pro, After Effects), je suis prêt à m\'investir sur des projets concrets et à apporter une vraie valeur ajoutée à votre équipe.':
-      'BUT MMI student (multimedia & internet), looking for an 8 to 10-week internship starting April 15. Comfortable with the Adobe suite (Illustrator, Photoshop, InDesign, Premiere Pro, After Effects), I am ready to commit to real projects and bring real added value to your team.',
+    'Étudiant en BUT MMI, je cherche un stage de 8 à 10 semaines à partir du 12 avril. À l\'aise sur la suite Adobe (Illustrator, Photoshop, InDesign, Premiere Pro, After Effects), je suis prêt à m\'investir sur des projets concrets et à apporter une vraie valeur ajoutée à votre équipe.':
+      'BUT MMI student (multimedia & internet), looking for an 8 to 10-week internship starting April 12. Comfortable with the Adobe suite (Illustrator, Photoshop, InDesign, Premiere Pro, After Effects), I am ready to commit to real projects and bring real added value to your team.',
     '⬇ Télécharger le CV (PDF)': '⬇ Download résumé (PDF)', 'Expériences': 'Experience', 'Formation': 'Education', 'Compétences': 'Skills',
     'Spot publicitaire Hinge': 'Hinge advertising spot', '— scénario, storyboard, motion design (After Effects) et intégration sonore.': '— script, storyboard, motion design (After Effects) and sound integration.',
     'Ce portfolio': 'This portfolio', '— bureau Windows XP et galerie 2D jouable, développés en HTML, CSS et JavaScript.': '— Windows XP desktop and playable 2D gallery, built with HTML, CSS and JavaScript.',
